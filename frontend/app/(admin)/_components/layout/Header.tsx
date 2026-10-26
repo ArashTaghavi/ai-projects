@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { ChevronRight, LoaderCircle, LogOut, Menu, X } from "lucide-react";
 import { Navigation } from "./";
 
-export default function () {
+export default function Header() {
     const mobileMenu = useRef<HTMLDialogElement>(null);
     const { data, isPending, isError } = useAuth();
     const { mutate: logout, isPending: isLoggingOut, isError: logoutFailed } = useLogout();
