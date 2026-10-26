@@ -15,6 +15,13 @@ export interface LoginResponse {
     data: AuthUser;
 }
 
+export type RegisterPayload = LoginPayload;
+
+export interface RegisterResponse {
+    message: string;
+    data: AuthUser;
+}
+
 export interface MeResponse {
     message: string;
     data: AuthUser;
@@ -27,6 +34,12 @@ export interface LogoutResponse {
 export const authService = {
     login: (payload: LoginPayload) =>
         httpClient<LoginResponse>("/auth/login", {
+            method: "POST",
+            body: JSON.stringify(payload),
+        }),
+
+    register: (payload: RegisterPayload) =>
+        httpClient<RegisterResponse>("/auth/register", {
             method: "POST",
             body: JSON.stringify(payload),
         }),
