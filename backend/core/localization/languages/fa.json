@@ -1,0 +1,13 @@
+{
+    "validation": {
+    "missing": "این فیلد الزامی است",
+    "string_too_short": "حداقل باید {min_length} کاراکتر باشد",
+    "string_too_long": "حداکثر باید {max_length} کاراکتر باشد",
+    "int_parsing": "باید عدد صحیح باشد",
+    "default": "مقدار نامعتبر است"
+  },
+  "auth": {
+    "registered": "کاربر با موفقیت ثبت‌نام شد",
+    "username_exists": "این نام کاربری قبلاً ثبت شده است"
+  }
+}

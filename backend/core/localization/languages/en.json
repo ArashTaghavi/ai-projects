@@ -1,0 +1,13 @@
+{
+  "validation": {
+    "missing": "This field is required",
+    "string_too_short": "Must contain at least {min_length} characters",
+    "string_too_long": "Must contain at most {max_length} characters",
+    "int_parsing": "Must be a valid integer",
+    "default": "Invalid value"
+  },
+   "auth": {
+    "registered": "User registered successfully",
+    "username_exists": "Username already exists"
+  }
+}
