@@ -33,6 +33,11 @@ export default function Input<T extends FieldValues>({
         <div className="space-y-2.5">
             <label htmlFor={inputId} className="block text-xs font-medium text-zinc-300">
                 {label}
+                {error && (
+                    <span id={errorId} role="alert" className="mx-2 text-xs text-red-300">
+                        {error.message}
+                    </span>
+                )}
             </label>
 
             <input
@@ -42,14 +47,14 @@ export default function Input<T extends FieldValues>({
                 value={field.value ?? ""}
                 aria-invalid={!!error}
                 aria-describedby={error ? errorId : undefined}
-                className={`h-12 w-full rounded-xl border border-white/10 bg-[#0b0b10] px-4 text-sm text-zinc-100 transition outline-none placeholder:text-zinc-600 focus:border-violet-400/60 focus:ring-4 focus:ring-violet-500/10 disabled:opacity-50 ${className}`}
+                className={[
+                    "h-12 w-full rounded-xl border bg-[#0b0b10] px-4 text-sm text-zinc-100 transition outline-none placeholder:text-zinc-600 disabled:opacity-50",
+                    error
+                        ? "border-red-400/60 focus:border-red-400 focus:ring-4 focus:ring-red-500/10"
+                        : "border-white/10 focus:border-violet-400/60 focus:ring-4 focus:ring-violet-500/10",
+                    className,
+                ].join(" ")}
             />
-
-            {error && (
-                <p id={errorId} role="alert" className="text-xs text-red-300">
-                    {error.message}
-                </p>
-            )}
         </div>
     );
 }

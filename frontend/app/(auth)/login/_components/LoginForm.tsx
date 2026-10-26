@@ -9,6 +9,8 @@ import { Form, Input, PasswordInput } from "@/components/form";
 import { useLogin } from "../_hooks/useLogin";
 import { useRegister } from "../_hooks/useRegister";
 import { loginSchema, type LoginFormValues } from "../_schemas/login.schema";
+import { Button } from "@/components/ui";
+import { ArrowRight, UserPlus } from "lucide-react";
 
 export default function LoginForm() {
     const router = useRouter();
@@ -41,7 +43,15 @@ export default function LoginForm() {
         login.reset();
         register.reset();
 
-        register.mutate(data);
+        register.mutate(data, {
+            onSuccess() {
+                login.mutate(data, {
+                    onSuccess: () => {
+                        router.push("/");
+                    },
+                });
+            },
+        });
     };
 
     return (
@@ -71,22 +81,27 @@ export default function LoginForm() {
             />
 
             <div className="flex gap-2">
-                <button
+                <Button
                     type="submit"
+                    loading={login.isPending}
                     disabled={isPending}
-                    className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-violet-300/20 bg-violet-600 text-sm font-medium text-white disabled:opacity-60"
+                    fullWidth
+                    endIcon={<ArrowRight size={17} />}
                 >
-                    {login.isPending ? "Signing in..." : "Sign in"}
-                </button>
+                    Sign in
+                </Button>
 
-                <button
+                <Button
                     type="button"
+                    variant="secondary"
                     onClick={methods.handleSubmit(onRegister)}
+                    loading={register.isPending}
                     disabled={isPending}
-                    className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-violet-300/20 bg-violet-600 text-sm font-medium text-white disabled:opacity-60"
+                    fullWidth
+                    endIcon={<UserPlus size={17} />}
                 >
-                    {register.isPending ? "Signing up..." : "Sign up"}
-                </button>
+                    Sign up
+                </Button>
             </div>
         </Form>
     );
