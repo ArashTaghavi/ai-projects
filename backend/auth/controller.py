@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from core.http.responses import DataMessageResponse
+from core.websocket.websocket_manager import manager
 from database.connection import DbSession
 from fastapi import Cookie, Response
 
@@ -12,7 +13,7 @@ class AuthController:
     def __init__(self):
         self.service = AuthService()
 
-    def register(
+    async def register(
         self,
         data: RegisterRequest,
         db: DbSession,
@@ -21,6 +22,16 @@ class AuthController:
             db=db,
             username=data.username,
             password=data.password,
+        )
+
+        await manager.broadcast(
+            {
+                "type": "user.created",
+                "data": {
+                    "id": user.id,
+                    "username": user.username,
+                },
+            }
         )
 
         return DataMessageResponse(

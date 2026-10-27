@@ -1,15 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const publicRoutes = ["/login"];
+const publicRoutes = ["/", "/login"];
+const protectedRoutes = ["/admin", "/users"];
 
 export async function proxy(request: NextRequest) {
     const path = request.nextUrl.pathname;
     const isPublicRoute = publicRoutes.includes(path);
 
+    const isProtectedRoute = protectedRoutes.some(
+        (route) => path === route || path.startsWith(`${route}/`),
+    );
+
+    if (!isPublicRoute && !isProtectedRoute) {
+        return NextResponse.next();
+    }
+
     const session = request.cookies.get("session")?.value;
 
     if (!session) {
-        if (!isPublicRoute) {
+        if (isProtectedRoute) {
             return NextResponse.redirect(new URL("/login", request.url));
         }
 
@@ -27,9 +36,9 @@ export async function proxy(request: NextRequest) {
         });
 
         if (response.status === 401) {
-            const redirect = isPublicRoute
-                ? NextResponse.next()
-                : NextResponse.redirect(new URL("/login", request.url));
+            const redirect = isProtectedRoute
+                ? NextResponse.redirect(new URL("/login", request.url))
+                : NextResponse.next();
 
             redirect.cookies.delete("session");
 
@@ -49,7 +58,7 @@ export async function proxy(request: NextRequest) {
         });
     }
 
-    if (isPublicRoute && isAuthenticated) {
+    if (path === "/login" && isAuthenticated) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
