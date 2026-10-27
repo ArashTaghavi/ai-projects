@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -10,15 +9,19 @@ import { useLogin } from "../_hooks/useLogin";
 import { useRegister } from "../_hooks/useRegister";
 import { loginSchema, type LoginFormValues } from "../_schemas/login.schema";
 import { Button } from "@/components/ui";
-import { ArrowRight, UserPlus } from "lucide-react";
+import { ArrowRight, Check, UserPlus } from "lucide-react";
 
-export default function LoginForm() {
-    const router = useRouter();
-
+export default function LoginForm({
+    onAuthenticated,
+    authenticated = false,
+}: {
+    onAuthenticated: () => void;
+    authenticated?: boolean;
+}) {
     const login = useLogin();
     const register = useRegister();
 
-    const isPending = login.isPending || register.isPending;
+    const isPending = login.isPending || register.isPending || authenticated;
 
     const methods = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -29,26 +32,24 @@ export default function LoginForm() {
     });
 
     const onLogin = (data: LoginFormValues) => {
+        if (isPending) return;
         register.reset();
         login.reset();
 
         login.mutate(data, {
-            onSuccess: () => {
-                router.push("/");
-            },
+            onSuccess: onAuthenticated,
         });
     };
 
     const onRegister = (data: LoginFormValues) => {
+        if (isPending) return;
         login.reset();
         register.reset();
 
         register.mutate(data, {
             onSuccess() {
                 login.mutate(data, {
-                    onSuccess: () => {
-                        router.push("/");
-                    },
+                    onSuccess: onAuthenticated,
                 });
             },
         });
@@ -86,9 +87,9 @@ export default function LoginForm() {
                     loading={login.isPending}
                     disabled={isPending}
                     fullWidth
-                    endIcon={<ArrowRight size={17} />}
+                    endIcon={authenticated ? <Check size={17} /> : <ArrowRight size={17} />}
                 >
-                    Sign in
+                    {authenticated ? "Signed in" : "Sign in"}
                 </Button>
 
                 <Button

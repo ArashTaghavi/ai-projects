@@ -66,7 +66,7 @@ export const skillGroups = [
         number: "01",
         title: "Backend Development",
         description: "APIs, services & application logic.",
-        skills: ["Python", "PHP", "FastAPI", "Laravel"],
+        skills: ["Python", "PHP", "FastAPI", "Laravel", "WebSocket"],
     },
     {
         id: "frontend",

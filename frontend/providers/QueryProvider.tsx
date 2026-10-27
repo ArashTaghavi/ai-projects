@@ -41,8 +41,8 @@ export default function QueryProvider({ children }: { children: ReactNode }) {
                 // The session may already be invalid or the API unavailable.
             }
 
-            if (window.location.pathname !== "/login") {
-                router.replace("/login");
+            if (window.location.pathname !== "/auth") {
+                router.replace("/auth");
                 router.refresh();
             }
 

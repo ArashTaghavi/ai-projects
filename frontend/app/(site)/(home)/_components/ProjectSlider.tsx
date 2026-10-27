@@ -135,7 +135,7 @@ export default function ProjectSlider() {
                                     {description}
                                 </p>
                                 <Link
-                                    href="/login"
+                                    href="/auth"
                                     className="mt-2 inline-flex items-center gap-2 text-sm font-medium text-violet-300 hover:text-violet-200 lg:mt-6"
                                 >
                                     Start building <ArrowUpRight size={17} aria-hidden="true" />
