@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { LogIn, Sparkles } from "lucide-react";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 
 function subscribeToScroll(onChange: () => void) {
@@ -47,21 +47,20 @@ export default function SiteHeader() {
                     : "border-white/5 bg-transparent"
             }`}
         >
-            <div className="flex w-full flex-wrap items-center justify-between gap-5 px-5 py-5 sm:px-10 lg:px-16 xl:px-24">
+            <div className="grid w-full grid-cols-[1fr_auto] items-center gap-4 px-5 py-5 sm:grid-cols-[1fr_auto_1fr] sm:px-10 lg:px-16 xl:px-24">
                 <Link
                     href="/"
                     aria-label="OpenLearnLab home"
-                    className="flex items-center gap-2.5 font-semibold tracking-tight"
+                    className="order-1 inline-flex w-fit items-center gap-2.5 text-sm font-semibold tracking-tight text-zinc-100 sm:text-base"
                 >
-                    <span className="flex size-9 items-center justify-center rounded-xl border border-violet-400/20 bg-violet-400/10 text-violet-300">
+                    <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-violet-400/20 bg-violet-400/10 text-violet-300">
                         <Sparkles size={19} aria-hidden="true" />
                     </span>
                     OpenLearnLab
                 </Link>
-
                 <nav
                     aria-label="Main navigation"
-                    className="order-3 flex w-full items-center justify-center gap-7 text-sm text-zinc-400 sm:order-none sm:w-auto"
+                    className="order-3 col-span-2 flex items-center justify-center gap-8 text-sm text-zinc-400 sm:order-2 sm:col-span-1"
                 >
                     <Link
                         href="/"
@@ -85,20 +84,13 @@ export default function SiteHeader() {
                     >
                         Portfolio
                     </Link>
-                    <Link href="/#projects" className="transition-colors hover:text-white">
-                        Projects
-                    </Link>
-                    <Link href="/#about" className="transition-colors hover:text-white">
-                        About
-                    </Link>
                 </nav>
-
                 <Link
-                    href="/login"
-                    className="inline-flex items-center gap-2 rounded-xl bg-violet-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-violet-400"
+                    href="/auth"
+                    className="order-2 inline-flex items-center gap-2 justify-self-end rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium whitespace-nowrap text-zinc-100 shadow-[inset_0_1px_0_#ffffff1a,0_4px_16px_#00000020] backdrop-blur-xl transition-colors hover:border-sky-200/40 hover:bg-white/10 hover:text-sky-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-200 sm:order-3"
                 >
                     Get started
-                    <ArrowUpRight size={16} aria-hidden="true" />
+                    <LogIn size={15} aria-hidden="true" />
                 </Link>
             </div>
         </header>

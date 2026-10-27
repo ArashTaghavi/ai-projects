@@ -1,6 +1,6 @@
 import { keyboardSounds, type KeyboardSoundId } from "./keyboard-sounds";
 
-export type TypewriterKey = "type" | "erase" | "space";
+export type TypewriterKey = "type" | "erase" | "space" | "enter";
 
 // Recorded typewriter and mechanical keyboards; all source recordings are CC0.
 // See public/audio/typewriter/README.md for source and license details.
@@ -71,19 +71,23 @@ export class MechanicalTypingSound {
         return pending;
     }
 
-    async enable(preset: KeyboardSoundId = this.preset) {
+    async enable(
+        preset: KeyboardSoundId = this.preset,
+        overrides: Partial<Record<TypewriterKey, readonly string[]>> = {},
+    ) {
         // Resume within the user's click before waiting for local audio downloads.
         const resumed = this.context.resume();
         const selected = keyboardSounds.find((sound) => sound.id === preset)!;
-        const [type, space, erase] = await Promise.all([
-            Promise.all(selected.type.map((url) => this.cachedBuffer(url))),
-            Promise.all(selected.space.map((url) => this.cachedBuffer(url))),
-            Promise.all(selected.erase.map((url) => this.cachedBuffer(url))),
+        const [type, space, erase, enter] = await Promise.all([
+            Promise.all((overrides.type ?? selected.type).map((url) => this.cachedBuffer(url))),
+            Promise.all((overrides.space ?? selected.space).map((url) => this.cachedBuffer(url))),
+            Promise.all((overrides.erase ?? selected.erase).map((url) => this.cachedBuffer(url))),
+            Promise.all((overrides.enter ?? []).map((url) => this.cachedBuffer(url))),
             resumed,
         ]);
         if (this.context.state !== "running") throw new Error("Audio is unavailable");
         this.stop();
-        this.buffers = { type, space, erase };
+        this.buffers = { type, space, erase, enter };
         this.preset = preset;
         this.variation = 0;
     }
@@ -93,11 +97,13 @@ export class MechanicalTypingSound {
         this.voices.clear();
     }
 
-    play(key: TypewriterKey) {
+    play(key: TypewriterKey, touch: { variant?: number; gain?: number } = {}) {
         if (this.context.state !== "running" || document.hidden) return;
         const choices = this.buffers[key];
         if (!choices?.length) return;
-        const buffer = choices[this.variation++ % choices.length];
+        const variation =
+            touch.variant === undefined ? this.variation++ : Math.abs(Math.trunc(touch.variant));
+        const buffer = choices[variation % choices.length];
         // Bound overlaps while preserving the short natural mechanical release.
         if (this.voices.size >= 6) {
             const oldest = this.voices.values().next().value;
@@ -110,7 +116,8 @@ export class MechanicalTypingSound {
         source.buffer = buffer;
         source.playbackRate.value = 1;
         const level = this.context.createGain();
-        level.gain.value = key === "space" ? 0.65 : key === "erase" ? 0.8 : 1;
+        const pressure = Math.min(1.1, Math.max(0, touch.gain ?? 1));
+        level.gain.value = (key === "space" ? 0.65 : key === "erase" ? 0.8 : 1) * pressure;
         source.connect(level).connect(this.output);
         this.voices.add(source);
         source.onended = () => {

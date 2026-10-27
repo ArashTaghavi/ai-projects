@@ -26,11 +26,6 @@ export default function PortfolioPage() {
                 <SkillsSection />
                 <ContactLinks />
             </main>
-            <footer className="flex items-center justify-center border-t border-white/8 px-5 py-5 text-[11px] text-zinc-400">
-                <p>
-                    © {new Date().getFullYear()} {profile.name}
-                </p>
-            </footer>
         </div>
     );
 }

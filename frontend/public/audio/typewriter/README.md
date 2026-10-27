@@ -55,3 +55,47 @@ The original full-length recordings remain unchanged.
 The Brown preset uses its recorded key press and release. Blue and WhiteFox
 alternate between four short strikes. Space and backspace use quieter strikes
 from the chosen keyboard rather than mixing in the Hermes recording.
+
+## Document chat spacebar
+
+`blue-switch-spacebar.mp3` is the unchanged high-quality MP3 preview of
+[spacebarKey.wav by UberBosser](https://freesound.org/people/UberBosser/sounds/421582/),
+a real spacebar press on a mechanical keyboard with blue switches, licensed CC0.
+Downloaded on 2026-10-27 from
+`https://cdn.freesound.org/previews/421/421582_8368754-hq.mp3`.
+`blue-switch-spacebar-balanced.mp3` is a mono, level-balanced alternative retained
+for comparison. DocumentChatPreview currently uses the same Blue preset as the portfolio.
+
+Additional single-key alternatives from that blue-switch keyboard are saved as:
+[qKey (421583)](https://freesound.org/people/UberBosser/sounds/421583/) and
+[wKey (421581)](https://freesound.org/people/UberBosser/sounds/421581/).
+The recorded [Ctrl key (421584)](https://freesound.org/people/UberBosser/sounds/421584/)
+is available as an alternative larger-key sound; it is not a recording
+of an actual backspace key. All are by UberBosser under CC0. The creator identifies
+blue switches but does not specify their manufacturer.
+
+These four playback files have matching levels, original pitch/speed and very short
+edge fades. Processing and source details are in
+[document-keyboard-recordings.json](document-keyboard-recordings.json).
+
+## Optional letter-variation recordings
+
+`document-blue-strike-01.mp3` through `document-blue-strike-12.mp3` are retained
+as optional alternatives, not used by the current document-chat playback. These are separate strikes from the
+Cherry Blue recording by EricsSoundschmiede above, with quiet tails retained.
+They share one gain adjustment so the original differences in loudness remain;
+they are not individually normalized to sound identical. Source offsets and
+processing details are in [document-blue-strikes.json](document-blue-strikes.json).
+
+The current DocumentChatPreview uses the portfolio's unmodified Blue preset and
+the same per-keystroke scheduling and typing/correction timing. No character-based
+sample selection or extra volume variation is applied.
+
+## Enter on message send
+
+`mechanical-enter.mp3` is the unchanged high-quality MP3 preview of
+[Enter Key Press Mechanical Keyboard by alpinemesh](https://freesound.org/people/alpinemesh/sounds/627647/),
+a recorded Enter press on a Corsair Gaming K70 RGB keyboard, licensed CC0.
+Downloaded on 2026-10-27. DocumentChatPreview plays it once when each user message
+is submitted, only while sound is enabled. Other previews and the portfolio do
+not play this sound.
