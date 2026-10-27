@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight, Sparkles } from "lucide-react";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 
@@ -18,6 +19,7 @@ function getServerScrolled() {
 }
 
 export default function SiteHeader() {
+    const pathname = usePathname();
     const headerRef = useRef<HTMLElement>(null);
     const scrolled = useSyncExternalStore(subscribeToScroll, getScrolled, getServerScrolled);
     useEffect(() => {
@@ -63,10 +65,25 @@ export default function SiteHeader() {
                 >
                     <Link
                         href="/"
-                        aria-current="page"
-                        className="text-violet-300 hover:text-violet-200"
+                        aria-current={pathname === "/" ? "page" : undefined}
+                        className={
+                            pathname === "/"
+                                ? "text-violet-300 hover:text-violet-200"
+                                : "transition-colors hover:text-white"
+                        }
                     >
                         Home
+                    </Link>
+                    <Link
+                        href="/portfolio"
+                        aria-current={pathname === "/portfolio" ? "page" : undefined}
+                        className={
+                            pathname === "/portfolio"
+                                ? "text-violet-300 hover:text-violet-200"
+                                : "transition-colors hover:text-white"
+                        }
+                    >
+                        Portfolio
                     </Link>
                     <Link href="/#projects" className="transition-colors hover:text-white">
                         Projects

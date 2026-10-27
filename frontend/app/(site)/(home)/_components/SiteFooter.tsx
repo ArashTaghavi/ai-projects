@@ -30,6 +30,9 @@ export default function SiteFooter() {
                         <Link href="/#projects" className="hover:text-white">
                             Projects
                         </Link>
+                        <Link href="/portfolio" className="hover:text-white">
+                            Portfolio
+                        </Link>
                         <Link href="/login" className="hover:text-white">
                             Sign in
                         </Link>

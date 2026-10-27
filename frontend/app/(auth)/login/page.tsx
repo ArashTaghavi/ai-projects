@@ -1,13 +1,12 @@
-﻿import { CodeBackdrop, LoginBackground, LoginCard } from "./_components";
+﻿import { CodeBackdrop, LoginCard } from "./_components";
 
 export default function LoginPage() {
     return (
         <main
             dir="ltr"
             lang="en"
-            className="relative isolate flex min-h-svh items-center justify-center overflow-hidden bg-[#09090e] px-5 py-12 font-sans text-zinc-100 selection:bg-violet-500/30"
+            className="relative isolate flex min-h-svh items-center justify-center overflow-hidden px-5 py-12 font-sans text-zinc-100 selection:bg-violet-500/30"
         >
-            <LoginBackground />
             <CodeBackdrop />
 
             <div className="w-full max-w-[420px]">
