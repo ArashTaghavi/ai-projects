@@ -1,10 +1,21 @@
+"use client";
+
 import { useAuth } from "@/hooks/auth/useAuth";
 import { useLogout } from "@/hooks/auth/useLogout";
 import { useRef } from "react";
-import { ChevronRight, LoaderCircle, LogOut, Menu, X } from "lucide-react";
-import { Navigation } from "./";
+import { usePathname } from "next/navigation";
+import { ChevronRight, LogOut, Menu, X } from "lucide-react";
+import Button from "@/components/ui/Button";
+import Navigation from "./Navigation";
 
 export default function Header() {
+    const pathname = usePathname();
+    const pageLabel =
+        pathname === "/admin"
+            ? "Overview"
+            : pathname.startsWith("/admin/users")
+              ? "Users"
+              : pathname.split("/").filter(Boolean).pop()?.replaceAll("-", " ") || "Overview";
     const mobileMenu = useRef<HTMLDialogElement>(null);
     const { data, isPending, isError } = useAuth();
     const { mutate: logout, isPending: isLoggingOut, isError: logoutFailed } = useLogout();
@@ -48,7 +59,7 @@ export default function Header() {
                         className="hidden text-zinc-700 sm:block"
                         aria-hidden="true"
                     />
-                    <span className="text-xs font-medium text-zinc-200">Overview</span>
+                    <span className="text-xs font-medium text-zinc-200">{pageLabel}</span>
                 </div>
                 <div className="flex min-w-0 items-center gap-3 sm:gap-5">
                     <span
@@ -65,22 +76,19 @@ export default function Header() {
                             {isError ? "Account unavailable" : "Signed-in account"}
                         </p>
                     </div>
-                    <button
-                        type="button"
+                    <Button
+                        variant="outline-danger"
+                        size="sm"
                         onClick={() => logout()}
-                        disabled={isLoggingOut}
-                        className="flex items-center gap-2 rounded-lg border border-white/8 px-3 py-2 text-xs text-zinc-400 transition hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-300 focus-visible:outline-2 focus-visible:outline-violet-400 disabled:cursor-wait disabled:opacity-50"
+                        loading={isLoggingOut}
+                        startIcon={<LogOut size={15} aria-hidden="true" />}
+                        className="[&>svg]:size-[15px]"
                     >
-                        {isLoggingOut ? (
-                            <LoaderCircle size={15} className="animate-spin" aria-hidden="true" />
-                        ) : (
-                            <LogOut size={15} aria-hidden="true" />
-                        )}
                         <span className="hidden sm:inline">
                             {isLoggingOut ? "Signing out…" : "Sign out"}
                         </span>
                         <span className="sr-only sm:hidden">Sign out</span>
-                    </button>
+                    </Button>
                 </div>
             </header>
             {logoutFailed && (
@@ -91,11 +99,6 @@ export default function Header() {
                     Could not sign out. Please try again.
                 </p>
             )}
-
-            <footer className="mx-5 flex flex-wrap items-center justify-between gap-3 border-t border-white/6 py-5 text-[11px] text-zinc-600 sm:mx-8 lg:mx-10">
-                <span>OpenLearnLab</span>
-                <span>Built for better learning</span>
-            </footer>
         </>
     );
 }

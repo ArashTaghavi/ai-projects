@@ -1,0 +1,11 @@
+{
+    "type": "server.metrics",
+    "data": {
+        "hostname": "production-01",
+        "cpu_usage": 34,
+        "memory_usage": 62,
+        "disk_usage": 78,
+        "uptime_seconds": 2133120,
+        "timestamp": "2026-10-27T14:00:00Z"
+    }
+}

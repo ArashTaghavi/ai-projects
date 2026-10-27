@@ -1,0 +1,66 @@
+.board {
+    position: relative;
+    isolation: isolate;
+}
+.board::before {
+    content: "";
+    position: absolute;
+    inset: 10%;
+    z-index: -1;
+    background: radial-gradient(ellipse, rgb(139 92 246 / 0.17), transparent 70%);
+    filter: blur(28px);
+}
+.cell {
+    aspect-ratio: 1;
+    transition:
+        background 0.2s,
+        border-color 0.2s,
+        box-shadow 0.2s,
+        transform 0.2s;
+}
+.cell:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 24px rgb(0 0 0 / 0.15),
+        inset 0 1px rgb(255 255 255 / 0.06);
+}
+.mark {
+    width: 48%;
+    height: 48%;
+    overflow: visible;
+    filter: drop-shadow(0 0 12px currentColor);
+}
+.mark path,
+.mark circle {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 0;
+    animation: draw 0.4s ease-out both;
+}
+.winningLine {
+    stroke-dasharray: 150;
+    animation: draw 0.6s ease-out both;
+    filter: drop-shadow(0 0 2px currentColor);
+}
+@keyframes draw {
+    from {
+        stroke-dashoffset: 160;
+        opacity: 0.2;
+    }
+    to {
+        stroke-dashoffset: 0;
+        opacity: 1;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .cell {
+        transition: none;
+    }
+    .cell:not(:disabled):hover {
+        transform: none;
+    }
+    .mark path,
+    .mark circle,
+    .winningLine {
+        animation: none;
+    }
+}
