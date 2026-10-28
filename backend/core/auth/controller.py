@@ -1,10 +1,12 @@
 from typing import Annotated
 
+from database.connection import DbSession
+from fastapi import Cookie, Request, Response
+
 from core.http.responses import DataMessageResponse
 from core.websocket.websocket_manager import manager
-from database.connection import DbSession
-from fastapi import Cookie, Response
 
+from .dependecies import CurrentUser
 from .schemas import LoginRequest, LoginResponse, RegisterRequest, RegisterResponse
 from .service import AuthService
 
@@ -40,10 +42,10 @@ class AuthController:
         )
 
     def login(
-        self, data: LoginRequest, db: DbSession, response: Response
+        self, data: LoginRequest, db: DbSession, response: Response, request: Request
     ) -> DataMessageResponse[LoginResponse]:
         user, token = self.service.login(
-            db=db, username=data.username, password=data.password
+            db=db, username=data.username, password=data.password, request=request
         )
 
         response.set_cookie(
@@ -63,11 +65,8 @@ class AuthController:
 
     def me(
         self,
-        db: DbSession,
-        session: Annotated[str | None, Cookie()] = None,
+        user: CurrentUser,
     ) -> DataMessageResponse[LoginResponse]:
-        user = self.service.me(db=db, token=session)
-
         return DataMessageResponse(
             message="Authenticated",
             data=LoginResponse(id=user.id, username=user.username),

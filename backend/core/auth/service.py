@@ -2,12 +2,13 @@ import hashlib
 import secrets
 from datetime import UTC, datetime, timedelta
 
-from core.exceptions.validation_exception import ValidationException
 from database.models import User, UserSession
-from fastapi import HTTPException, status
+from fastapi import HTTPException, Request, status
 from pwdlib import PasswordHash
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
+
+from core.exceptions.validation_exception import ValidationException
 
 
 class AuthService:
@@ -33,7 +34,9 @@ class AuthService:
 
         return user
 
-    def login(self, db: Session, username: str, password: str) -> tuple[User, str]:
+    def login(
+        self, db: Session, username: str, password: str, request: Request
+    ) -> tuple[User, str]:
         user = db.scalar(select(User).where(User.username == username))
 
         if not user or not self.password_hash.verify(
@@ -50,6 +53,8 @@ class AuthService:
             user_id=user.id,
             token_hash=hashlib.sha256(token.encode()).hexdigest(),
             expires_at=datetime.now(UTC) + timedelta(days=7),
+            ip_address=request.client.host if request.client else None,
+            user_agent=request.headers.get("user-agent"),
         )
 
         db.add(session)

@@ -1,6 +1,8 @@
 from fastapi import APIRouter
+from fastapi.params import Depends
 
 from .controller import AuthController
+from .dependecies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -23,6 +25,7 @@ router.add_api_route(
     "/me",
     controller.me,
     methods=["GET"],
+    dependencies=[Depends(get_current_user)],
 )
 
 router.add_api_route(

@@ -8,11 +8,13 @@ from sqlalchemy.orm import Session, sessionmaker
 
 class Settings(BaseSettings):
     DATABASE_URL: str
+    OPENAI_API_KEY: str
+    OPENAI_BASE_URL: str
 
     model_config = SettingsConfigDict(env_file=".env")
 
 
-settings = Settings() # type: ignore
+settings = Settings()  # type: ignore
 
 engine = create_engine(settings.DATABASE_URL)
 
