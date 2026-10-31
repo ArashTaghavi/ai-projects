@@ -213,7 +213,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
             <div
                 className={`${showList ? "hidden md:flex" : "flex"} h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden`}
             >
-                <header className="border-ui-border flex shrink-0 items-center gap-3 border-b bg-[#101016] px-4 py-3 sm:px-6">
+                <header className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-[#191923]/95 px-4 py-3 shadow-sm shadow-black/20 sm:px-6">
                     <Button
                         size="icon"
                         variant="secondary"
@@ -320,7 +320,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                             aria-label="Document conversation"
                             aria-live="polite"
                             aria-relevant="additions text"
-                            className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain bg-[radial-gradient(ellipse_at_top,_rgba(139,92,246,0.06),_transparent)] p-4 sm:p-6"
+                            className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain bg-[#0d0e16] bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.11),transparent_60%),radial-gradient(ellipse_at_bottom_left,rgba(56,189,248,0.05),transparent_55%)] px-2 py-3 sm:px-3"
                         >
                             {history.isPending && (
                                 <p role="status" className="text-ui-secondary text-sm">
@@ -351,7 +351,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                             methods={questionForm}
                             onSubmit={sendQuestion}
                             isPending={ask.isPending}
-                            className="border-ui-border flex shrink-0 items-end gap-3 border-t bg-[#101016] px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 [&>div]:min-w-0 [&>div]:flex-1"
+                            className="flex shrink-0 items-end gap-3 border-t border-white/10 bg-[#191923]/95 px-4 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_-16px_rgba(0,0,0,0.7)] sm:px-6 [&>div]:min-w-0 [&>div]:flex-1"
                         >
                             <Input<QuestionValues>
                                 name="query"

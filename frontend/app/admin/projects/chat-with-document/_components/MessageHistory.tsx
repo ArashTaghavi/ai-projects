@@ -1,5 +1,7 @@
 import type { ChatTurnResponse } from "@/services/admin/projects/chat-with-document/chat-with-document.service";
 import { groupMessagesByDay, messageDate } from "../_lib/message-dates";
+import { Sparkles, UserRound } from "lucide-react";
+import styles from "./MessageHistory.module.css";
 
 function MessageTime({ timestamp }: { timestamp: string }) {
     const date = messageDate(timestamp);
@@ -10,7 +12,7 @@ function MessageTime({ timestamp }: { timestamp: string }) {
             title={date.full}
             aria-label={date.full}
             dir="rtl"
-            className="text-ui-secondary mt-2 block text-right text-[10px] tabular-nums"
+            className="mt-2 block text-right text-[10px] text-zinc-400 tabular-nums"
         >
             {date.time}
         </time>
@@ -22,20 +24,25 @@ export default function MessageHistory({ turns }: { turns: ChatTurnResponse[] })
         <section
             key={group.day}
             aria-label={group.label}
-            className="relative mx-auto max-w-4xl space-y-5 pb-2"
+            className="relative w-full space-y-4 pb-2"
         >
             <div className="sticky top-0 z-10 flex justify-center py-2">
                 <span
                     dir="rtl"
-                    className="border-ui-border text-ui-soft rounded-full border bg-[#20202b]/95 px-4 py-1.5 text-xs shadow-sm backdrop-blur-md"
+                    className="rounded-full border border-white/15 bg-[#252533]/90 px-4 py-1.5 text-[11px] text-zinc-300 shadow-lg shadow-black/20 backdrop-blur-md"
                 >
                     {group.label}
                 </span>
             </div>
             {group.turns.map((turn) => (
                 <div key={turn.id} className="space-y-3">
-                    <div className="ml-auto max-w-[90%] rounded-2xl rounded-tr-sm bg-violet-500/15 p-4">
-                        <p className="mb-2 text-xs text-violet-300">You</p>
+                    <div className={`${styles.bubble} ${styles.user} ml-auto w-fit max-w-[92%] rounded-3xl rounded-tr-md px-3 py-2.5 sm:max-w-[82%]`}>
+                        <div className="mb-2 flex items-center gap-2 text-xs font-medium text-violet-200">
+                            <span className="flex size-6 items-center justify-center rounded-lg border border-violet-200/20 bg-violet-300/15">
+                                <UserRound size={13} aria-hidden="true" />
+                            </span>
+                            You
+                        </div>
                         <p
                             dir="auto"
                             className="text-sm leading-7 break-words whitespace-pre-wrap text-zinc-100"
@@ -44,8 +51,13 @@ export default function MessageHistory({ turns }: { turns: ChatTurnResponse[] })
                         </p>
                         <MessageTime timestamp={turn.created_at} />
                     </div>
-                    <div className="mr-auto max-w-[95%] rounded-2xl rounded-tl-sm bg-white/5 p-4">
-                        <p className="text-ui-secondary mb-2 text-xs">Assistant</p>
+                    <div className={`${styles.bubble} ${styles.assistant} mr-auto w-fit max-w-[95%] rounded-3xl rounded-tl-md px-3 py-2.5 sm:max-w-[90%]`}>
+                        <div className="mb-2 flex items-center gap-2 text-xs font-medium text-sky-200">
+                            <span className="flex size-6 items-center justify-center rounded-lg border border-sky-200/20 bg-sky-300/10">
+                                <Sparkles size={13} aria-hidden="true" />
+                            </span>
+                            Assistant
+                        </div>
                         <p
                             dir="auto"
                             className="text-sm leading-7 break-words whitespace-pre-wrap text-zinc-200"
