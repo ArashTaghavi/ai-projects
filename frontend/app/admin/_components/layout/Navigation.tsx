@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronRight, Gamepad2, LayoutDashboard, Settings, Users } from "lucide-react";
+import {
+    BookOpen,
+    ChevronRight,
+    FolderKanban,
+    Gamepad2,
+    LayoutDashboard,
+    Settings,
+    Users,
+} from "lucide-react";
 
 const upcoming = [
     { label: "Courses", icon: BookOpen },
@@ -41,6 +49,15 @@ export default function Navigation({ onNavigate }: { onNavigate?: () => void }) 
                 className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${pathname === "/admin/tic-tac-toe" ? "bg-violet-400/10 text-violet-300 ring-1 ring-violet-400/15" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
             >
                 <Gamepad2 size={18} aria-hidden="true" /> Tic-tac-toe
+                <ChevronRight size={14} className="ml-auto" aria-hidden="true" />
+            </Link>
+            <Link
+                href="/admin/projects"
+                onClick={onNavigate}
+                aria-current={pathname.startsWith("/admin/projects") ? "page" : undefined}
+                className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-violet-400 ${pathname.startsWith("/admin/projects") ? "bg-violet-400/10 text-violet-300 ring-1 ring-violet-400/15" : "text-zinc-400 hover:bg-white/5 hover:text-white"}`}
+            >
+                <FolderKanban size={18} aria-hidden="true" /> Projects
                 <ChevronRight size={14} className="ml-auto" aria-hidden="true" />
             </Link>
             {upcoming.map(({ label, icon: Icon }) => (

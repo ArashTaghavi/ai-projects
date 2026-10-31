@@ -1,13 +1,12 @@
 import core.localization
-from admin.users import router as user_router
-from core.auth import router as auth_router
-from core.exceptions import validation_handler
-from core.exceptions.validation_exception import ValidationException
+from core.exceptions import ValidationException, validation_handler
+from core.modules.admin.users import router as user_router
+from core.modules.auth import router as auth_router
 from core.websocket.websocket import router as websocket_router
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from projects.chat_with_document.router import router as cwd
+from modules.chat_with_document.router import router as chat_with_document_router
 
 app = FastAPI(title="AI Projects")
 
@@ -42,4 +41,4 @@ async def handle_custom_validation_error(
 app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(websocket_router)
-app.include_router(cwd)
+app.include_router(chat_with_document_router)

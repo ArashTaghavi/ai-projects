@@ -1,16 +1,36 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import QueryProvider from "@/providers/QueryProvider";
 import "./globals.css";
 
-const geistSans = Geist({
+const geistSans = localFont({
+    src: "./fonts/Geist.ttf",
+    weight: "100 900",
+    display: "swap",
     variable: "--font-geist-sans",
-    subsets: ["latin"],
+    adjustFontFallback: false,
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+    src: "./fonts/GeistMono.ttf",
+    weight: "100 900",
+    display: "swap",
     variable: "--font-geist-mono",
-    subsets: ["latin"],
+    adjustFontFallback: false,
+});
+
+const vazirmatn = localFont({
+    src: "./fonts/Vazirmatn.ttf",
+    weight: "100 900",
+    variable: "--font-vazirmatn",
+    display: "swap",
+    adjustFontFallback: false,
+    declarations: [
+        {
+            prop: "unicode-range",
+            value: "U+0600-06FF,U+0750-077F,U+0870-089F,U+08A0-08FF,U+200C-200F,U+202A-202E,U+2066-2069,U+FB50-FDFF,U+FE70-FEFF",
+        },
+    ],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html
             lang="en"
-            className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} ${vazirmatn.variable} h-full antialiased`}
         >
             <body className="flex min-h-full flex-col">
                 <QueryProvider>{children}</QueryProvider>

@@ -7,6 +7,7 @@ export interface AdminPageProps {
     actions?: ReactNode;
     toolbar?: ReactNode;
     children?: ReactNode;
+    fillHeight?: boolean;
 }
 
 export default function AdminPage({
@@ -16,10 +17,11 @@ export default function AdminPage({
     actions,
     toolbar,
     children,
+    fillHeight = false,
 }: AdminPageProps) {
     return (
         <>
-            <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                     {icon && (
                         <span
@@ -39,7 +41,9 @@ export default function AdminPage({
                 {actions}
             </div>
             {(toolbar != null || children != null) && (
-                <div className="min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025]">
+                <div
+                    className={`min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] ${fillHeight ? "flex min-h-0 flex-1 flex-col" : ""}`}
+                >
                     {toolbar && (
                         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 p-5">
                             {toolbar}
