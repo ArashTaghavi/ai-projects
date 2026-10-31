@@ -4,10 +4,9 @@ from pathlib import Path
 from shutil import copyfileobj
 from uuid import uuid4
 
-from fastapi import HTTPException, UploadFile
-
 from core import config as _environment_config
 from database.connection import DbSession
+from fastapi import HTTPException, UploadFile
 from langchain.chat_models import init_chat_model
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain_core.documents import Document
@@ -20,8 +19,6 @@ from langchain_postgres.vectorstores import (
     PGVector,
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-from ..models.document import Document as UploadedDocument
 
 from ..config import (
     CHUNK_OVERLAP,
@@ -36,6 +33,7 @@ from ..config import (
     SYSTEM_PROMPT,
     TEMPERATURE,
 )
+from ..models.document import Document as UploadedDocument
 
 
 class ChatWithDocument:

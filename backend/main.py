@@ -7,6 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from modules.chat_with_document.router import router as chat_with_document_router
+from modules.database_analyst.router import router as database_analyst_router
 
 app = FastAPI(title="AI Projects")
 
@@ -42,3 +43,4 @@ app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(websocket_router)
 app.include_router(chat_with_document_router)
+app.include_router(database_analyst_router)

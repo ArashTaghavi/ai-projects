@@ -85,3 +85,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), var(--font-vazirmatn), sans-serif;
 }
+
+/* Chat routes scroll inside their message lists, never on the document. */
+html:has([data-chat-viewport="true"]),
+body:has([data-chat-viewport="true"]) {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}

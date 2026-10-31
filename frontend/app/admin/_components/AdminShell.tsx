@@ -8,13 +8,15 @@ import Main from "./layout/Main";
 
 export default function AdminShell({ children }: { children: ReactNode }) {
     const pathname = usePathname().replace(/\/$/, "");
-    const isDocumentChat = [
+    const isChatPage = [
         "/admin/projects/chat-with-document",
         "/admin/projects/chat_with_document",
+        "/admin/projects/database-analyst",
     ].some((route) => pathname === route || pathname.startsWith(`${route}/`));
     return (
         <div
-            className={`admin-theme ${isDocumentChat ? "fixed inset-0 h-dvh overflow-hidden" : "min-h-dvh"} bg-[#0c0c11] font-sans text-zinc-100 selection:bg-violet-500/30`}
+            data-chat-viewport={isChatPage ? "true" : undefined}
+            className={`admin-theme ${isChatPage ? "fixed inset-0 h-dvh max-h-dvh overflow-hidden" : "min-h-dvh"} bg-[#0c0c11] font-sans text-zinc-100 selection:bg-violet-500/30`}
         >
             <a
                 href="#dashboard-content"
@@ -25,11 +27,11 @@ export default function AdminShell({ children }: { children: ReactNode }) {
             <Aside />
 
             <div
-                className={`flex min-w-0 flex-col lg:pl-64 [&>header]:shrink-0 ${isDocumentChat ? "h-full overflow-hidden" : "min-h-dvh"}`}
+                className={`flex min-w-0 flex-col lg:pl-64 [&>header]:shrink-0 ${isChatPage ? "h-full min-h-0 overflow-hidden" : "min-h-dvh"}`}
             >
                 <Header />
-                <Main viewport={isDocumentChat}>{children}</Main>
-                {!isDocumentChat && (
+                <Main viewport={isChatPage}>{children}</Main>
+                {!isChatPage && (
                     <footer className="border-ui-border-subtle text-ui-muted mx-5 flex flex-wrap items-center justify-between gap-3 border-t py-5 text-[11px] sm:mx-8 lg:mx-10">
                         <span>OpenLearnLab</span>
                         <span>Built for better learning</span>
