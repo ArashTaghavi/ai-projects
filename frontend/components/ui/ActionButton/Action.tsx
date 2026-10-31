@@ -13,7 +13,7 @@ export interface ActionProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
 }
 
 const tones = {
-    neutral: "text-zinc-300 hover:text-white",
+    neutral: "text-ui-soft hover:text-white",
     edit: "text-amber-400 hover:text-amber-200",
     delete: "text-red-400 hover:text-red-200",
     view: "text-sky-400 hover:text-sky-200",

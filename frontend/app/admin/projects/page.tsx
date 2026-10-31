@@ -10,17 +10,17 @@ export default function ProjectsPage() {
             icon={<FolderKanban size={22} />}
         >
             <Link
-                href="/admin/projects/chat_with_document"
+                href="/admin/projects/chat-with-document"
                 className="flex items-center gap-4 p-6 transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-violet-400"
             >
                 <FileText className="shrink-0 text-violet-300" aria-hidden="true" />
                 <div className="min-w-0 flex-1">
                     <h2 className="font-medium text-white">Chat with document</h2>
-                    <p className="mt-1 text-sm text-zinc-400">
+                    <p className="mt-1 text-sm text-ui-secondary">
                         Upload a Word document and ask questions about it.
                     </p>
                 </div>
-                <ArrowRight size={18} className="shrink-0 text-zinc-400" aria-hidden="true" />
+                <ArrowRight size={18} className="shrink-0 text-ui-secondary" aria-hidden="true" />
             </Link>
         </AdminPage>
     );

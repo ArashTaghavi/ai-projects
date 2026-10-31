@@ -10,9 +10,9 @@ export interface StatCardProps {
 
 export default function StatCard({ label, value, icon, detail, trend }: StatCardProps) {
     return (
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-linear-to-br from-white/[0.045] to-transparent p-4 sm:p-5">
+        <div className="relative overflow-hidden rounded-2xl border border-ui-border bg-linear-to-br from-white/[0.045] to-transparent p-4 sm:p-5">
             <div className="flex items-center justify-between gap-3">
-                <p className="text-xs text-zinc-400">{label}</p>
+                <p className="text-xs text-ui-secondary">{label}</p>
                 {icon && (
                     <span aria-hidden="true" className="text-violet-300/80 [&>svg]:size-4">
                         {icon}
@@ -28,7 +28,7 @@ export default function StatCard({ label, value, icon, detail, trend }: StatCard
                         {trend.label}
                     </span>
                 )}
-                {detail && <span className="text-zinc-500">{detail}</span>}
+                {detail && <span className="text-ui-muted">{detail}</span>}
             </div>
         </div>
     );

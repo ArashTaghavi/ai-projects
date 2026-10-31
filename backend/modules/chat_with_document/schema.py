@@ -10,7 +10,7 @@ class AskRequest(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
     query: str = Field(min_length=1)
-    document_id: str = Field(min_length=1)
+    document_id: int = Field(gt=0)
 
 
 class ChatTurnResponse(BaseModel):
@@ -25,7 +25,9 @@ class ChatTurnResponse(BaseModel):
 class DocumentResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: str
+    id: int
     name: str
     original_file_name: str
     created_at: datetime
+    last_message_preview: str | None = None
+    last_message_at: datetime | None = None

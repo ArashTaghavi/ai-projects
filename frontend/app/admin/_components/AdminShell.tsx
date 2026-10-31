@@ -8,12 +8,13 @@ import Main from "./layout/Main";
 
 export default function AdminShell({ children }: { children: ReactNode }) {
     const pathname = usePathname().replace(/\/$/, "");
-    const isDocumentChat =
-        pathname === "/admin/projects/chat_with_document" ||
-        pathname.startsWith("/admin/projects/chat_with_document/");
+    const isDocumentChat = [
+        "/admin/projects/chat-with-document",
+        "/admin/projects/chat_with_document",
+    ].some((route) => pathname === route || pathname.startsWith(`${route}/`));
     return (
         <div
-            className={`${isDocumentChat ? "fixed inset-0 h-dvh overflow-hidden" : "min-h-dvh"} bg-[#0c0c11] font-sans text-zinc-100 selection:bg-violet-500/30`}
+            className={`admin-theme ${isDocumentChat ? "fixed inset-0 h-dvh overflow-hidden" : "min-h-dvh"} bg-[#0c0c11] font-sans text-zinc-100 selection:bg-violet-500/30`}
         >
             <a
                 href="#dashboard-content"
@@ -29,7 +30,7 @@ export default function AdminShell({ children }: { children: ReactNode }) {
                 <Header />
                 <Main viewport={isDocumentChat}>{children}</Main>
                 {!isDocumentChat && (
-                    <footer className="mx-5 flex flex-wrap items-center justify-between gap-3 border-t border-white/6 py-5 text-[11px] text-zinc-500 sm:mx-8 lg:mx-10">
+                    <footer className="border-ui-border-subtle text-ui-muted mx-5 flex flex-wrap items-center justify-between gap-3 border-t py-5 text-[11px] sm:mx-8 lg:mx-10">
                         <span>OpenLearnLab</span>
                         <span>Built for better learning</span>
                     </footer>

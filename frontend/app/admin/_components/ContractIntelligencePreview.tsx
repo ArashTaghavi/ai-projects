@@ -105,19 +105,19 @@ export default function ContractIntelligencePreview() {
             aria-label="Illustrative scanned contract analysis with OCR, extracted terms, page citations, and a handwritten conflict flagged for review"
             className="relative mt-3 overflow-hidden rounded-xl border border-rose-300/10 bg-[#140d11] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-rose-300 shadow-[0_0_8px_#fda4af70]"
                     />
                     contract.intelligence
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <FileText size={13} className="shrink-0 text-rose-300/70" />
                 <span className="min-w-0 truncate">service-agreement.pdf</span>
@@ -136,7 +136,7 @@ export default function ContractIntelligencePreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#4a303d_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Preparing document analysis...</p>
+                    <p className="text-[10px] text-ui-subtle">Preparing document analysis...</p>
                 )}
                 {timeline
                     .filter((step) => elapsed >= step.start)
@@ -152,10 +152,10 @@ export default function ContractIntelligencePreview() {
                         return (
                             <div
                                 key={step.kind}
-                                className={`rounded-lg border p-2.5 ${user ? "ml-6 border-white/6 bg-white/3" : warning ? "border-amber-300/15 bg-amber-300/4" : "border-rose-300/10 bg-rose-300/3"}`}
+                                className={`rounded-lg border p-2.5 ${user ? "ml-6 border-ui-border-subtle bg-white/3" : warning ? "border-amber-300/15 bg-amber-300/4" : "border-rose-300/10 bg-rose-300/3"}`}
                             >
                                 <div
-                                    className={`mb-1.5 flex items-center gap-1.5 text-[9px] font-medium tracking-wide ${user ? "text-zinc-500" : warning ? "text-amber-200/80" : "text-rose-300/80"}`}
+                                    className={`mb-1.5 flex items-center gap-1.5 text-[9px] font-medium tracking-wide ${user ? "text-ui-muted" : warning ? "text-amber-200/80" : "text-rose-300/80"}`}
                                 >
                                     {!user && <Icon size={12} />}
                                     <span>{step.label}</span>
@@ -163,7 +163,7 @@ export default function ContractIntelligencePreview() {
                                         <Check size={11} className="ml-auto text-rose-300/60" />
                                     )}
                                 </div>
-                                <p className="text-[11px] leading-5 text-zinc-300">
+                                <p className="text-[11px] leading-5 text-ui-soft">
                                     {step.text.slice(
                                         0,
                                         Math.floor((elapsed - step.start) / typingSpeed),
@@ -174,11 +174,11 @@ export default function ContractIntelligencePreview() {
                                 </p>
                                 {step.kind === "scan" && !typing && (
                                     <div className="mt-2 rounded border border-rose-300/10 bg-black/15 p-2">
-                                        <div className="mb-2 flex items-center justify-between font-mono text-[8px] text-zinc-600">
+                                        <div className="mb-2 flex items-center justify-between font-mono text-[8px] text-ui-subtle">
                                             <span>PAGE 4 / EXCERPT</span>
                                             <span>OCR + VISION</span>
                                         </div>
-                                        <p className="border-l-2 border-rose-300/40 pl-2 font-mono text-[10px] leading-5 text-zinc-400">
+                                        <p className="border-l-2 border-rose-300/40 pl-2 font-mono text-[10px] leading-5 text-ui-secondary">
                                             §8.2 — Written notice at least{" "}
                                             <span className="bg-rose-300/10 text-rose-200">
                                                 30 days
@@ -188,18 +188,18 @@ export default function ContractIntelligencePreview() {
                                         <p className="mt-2 text-right font-serif text-xs text-amber-200/70 italic">
                                             60 days? ↖
                                         </p>
-                                        <p className="mt-1 text-right text-[8px] text-zinc-600">
+                                        <p className="mt-1 text-right text-[8px] text-ui-subtle">
                                             Handwritten margin note
                                         </p>
                                     </div>
                                 )}
                                 {step.kind === "extract" && !typing && (
-                                    <dl className="mt-2 divide-y divide-white/5 rounded border border-white/6 bg-black/10 px-2">
+                                    <dl className="mt-2 divide-y divide-ui-border-faint rounded border border-ui-border-subtle bg-black/10 px-2">
                                         {fields.map((field) => (
                                             <div key={field.label} className="py-1.5">
                                                 <div className="flex flex-wrap justify-between gap-x-3 gap-y-1 text-[10px]">
-                                                    <dt className="text-zinc-500">{field.label}</dt>
-                                                    <dd className="text-zinc-300">{field.value}</dd>
+                                                    <dt className="text-ui-muted">{field.label}</dt>
+                                                    <dd className="text-ui-soft">{field.value}</dd>
                                                 </div>
                                                 <p className="mt-0.5 text-[8px] text-rose-200/50">
                                                     {field.source}
@@ -227,7 +227,7 @@ export default function ContractIntelligencePreview() {
                         );
                     })}
             </div>
-            <div className="flex items-center justify-between gap-2 border-t border-white/5 px-3 py-2 text-[9px] text-zinc-600">
+            <div className="flex items-center justify-between gap-2 border-t border-ui-border-faint px-3 py-2 text-[9px] text-ui-subtle">
                 <span>Illustrative contract · Sample terms</span>
                 <span className="text-rose-300/60">OCR → Extract → Verify</span>
             </div>

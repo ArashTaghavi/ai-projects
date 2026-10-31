@@ -19,12 +19,12 @@ export default function Panel({
 }: PanelProps) {
     return (
         <section
-            className={`min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] ${className}`}
+            className={`min-w-0 overflow-hidden rounded-2xl border border-ui-border bg-white/[0.025] ${className}`}
         >
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-4 sm:px-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ui-border-subtle px-4 py-4 sm:px-5">
                 <div>
                     <h2 className="text-sm font-medium text-zinc-100">{title}</h2>
-                    {description && <p className="mt-1 text-xs text-zinc-500">{description}</p>}
+                    {description && <p className="mt-1 text-xs text-ui-muted">{description}</p>}
                 </div>
                 {action}
             </div>

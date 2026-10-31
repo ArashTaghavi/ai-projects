@@ -74,7 +74,7 @@ export default function Confirm({
             aria-labelledby={id}
             aria-describedby={error ? `${id}-error` : undefined}
             aria-busy={pending}
-            className="fixed inset-auto m-0 w-56 max-w-[calc(100vw-1rem)] rounded-xl border border-white/15 bg-zinc-950/95 p-3 text-zinc-100 shadow-xl backdrop:bg-transparent"
+            className="fixed inset-auto m-0 w-56 max-w-[calc(100vw-1rem)] rounded-xl border border-ui-border-strong bg-zinc-950/95 p-3 text-zinc-100 shadow-xl backdrop:bg-transparent"
             onClick={(event) => {
                 if (event.target !== event.currentTarget || busy.current) return;
                 const rect = event.currentTarget.getBoundingClientRect();

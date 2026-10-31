@@ -109,19 +109,19 @@ export default function CodebaseAssistantPreview() {
             aria-label="Illustrative codebase assistant exploring authentication in a sample repository, with file and line references"
             className="relative mt-3 overflow-hidden rounded-xl border border-orange-300/10 bg-[#120e0c] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-orange-300 shadow-[0_0_8px_#fdba7470]"
                     />
                     codebase.assistant
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <GitBranch size={13} className="text-orange-300/70" />
                 <span>sample-app / main</span>
@@ -140,7 +140,7 @@ export default function CodebaseAssistantPreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#4a362d_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Opening repository context...</p>
+                    <p className="text-[10px] text-ui-subtle">Opening repository context...</p>
                 )}
                 {timeline
                     .filter((step) => elapsed >= step.start)
@@ -158,18 +158,18 @@ export default function CodebaseAssistantPreview() {
                         return (
                             <div
                                 key={step.kind}
-                                className={`rounded-lg border p-2.5 ${user ? "ml-6 border-white/6 bg-white/3" : "border-orange-300/10 bg-orange-300/3"}`}
+                                className={`rounded-lg border p-2.5 ${user ? "ml-6 border-ui-border-subtle bg-white/3" : "border-orange-300/10 bg-orange-300/3"}`}
                             >
                                 <div className="mb-1.5 flex items-center gap-1.5 text-[9px] font-medium tracking-wide text-orange-300/80">
                                     {!user && <Icon size={12} />}
-                                    <span className={user ? "text-zinc-500" : ""}>
+                                    <span className={user ? "text-ui-muted" : ""}>
                                         {step.label}
                                     </span>
                                     {!user && !typing && (
                                         <Check size={11} className="ml-auto text-orange-300/60" />
                                     )}
                                 </div>
-                                <p className="text-[11px] leading-5 text-zinc-300">
+                                <p className="text-[11px] leading-5 text-ui-soft">
                                     {step.text.slice(
                                         0,
                                         Math.floor((elapsed - step.start) / typingSpeed),
@@ -183,17 +183,17 @@ export default function CodebaseAssistantPreview() {
                                         {files.map((file, index) => (
                                             <div
                                                 key={file.path}
-                                                className="flex items-start gap-2 rounded border border-white/6 bg-black/10 px-2 py-1.5"
+                                                className="flex items-start gap-2 rounded border border-ui-border-subtle bg-black/10 px-2 py-1.5"
                                             >
                                                 <FileCode2
                                                     size={11}
                                                     className="mt-0.5 shrink-0 text-orange-300/60"
                                                 />
                                                 <div className="min-w-0">
-                                                    <p className="font-mono text-[9px] break-all text-zinc-400">
+                                                    <p className="font-mono text-[9px] break-all text-ui-secondary">
                                                         [{index + 1}] {file.path}:{file.lines}
                                                     </p>
-                                                    <p className="mt-0.5 text-[9px] text-zinc-600">
+                                                    <p className="mt-0.5 text-[9px] text-ui-subtle">
                                                         {file.symbol}
                                                     </p>
                                                 </div>
@@ -221,7 +221,7 @@ export default function CodebaseAssistantPreview() {
                                 )}
                                 {step.kind === "detail" && !typing && (
                                     <div className="mt-2 overflow-hidden rounded border border-orange-300/10 bg-black/20">
-                                        <p className="border-b border-white/5 px-2 py-1.5 font-mono text-[9px] text-orange-200/70">
+                                        <p className="border-b border-ui-border-faint px-2 py-1.5 font-mono text-[9px] text-orange-200/70">
                                             [2] src/auth/session.ts:8–17 · Excerpt
                                         </p>
                                         <pre className="overflow-x-auto py-2 font-mono text-[9px] leading-4">
@@ -229,9 +229,9 @@ export default function CodebaseAssistantPreview() {
                                                 {code.map((line) => (
                                                     <span
                                                         key={line.number}
-                                                        className={`block px-2 ${line.highlight ? "bg-orange-300/8 text-orange-200" : "text-zinc-500"}`}
+                                                        className={`block px-2 ${line.highlight ? "bg-orange-300/8 text-orange-200" : "text-ui-muted"}`}
                                                     >
-                                                        <span className="mr-3 inline-block w-3 text-right text-zinc-600">
+                                                        <span className="mr-3 inline-block w-3 text-right text-ui-subtle">
                                                             {line.number}
                                                         </span>
                                                         {line.text}
@@ -246,7 +246,7 @@ export default function CodebaseAssistantPreview() {
                         );
                     })}
             </div>
-            <div className="flex items-center justify-between gap-2 border-t border-white/5 px-3 py-2 text-[9px] text-zinc-600">
+            <div className="flex items-center justify-between gap-2 border-t border-ui-border-faint px-3 py-2 text-[9px] text-ui-subtle">
                 <span>Illustrative repository · Sample code</span>
                 <span className="text-orange-300/60">
                     {elapsed >= completedAt ? "Grounded in code" : "Index → Search → Trace"}

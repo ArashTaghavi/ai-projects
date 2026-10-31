@@ -22,7 +22,7 @@ def documents(db: DbSession, current_user: CurrentUser):
 
 
 @router.get("/documents/{document_id}", response_model=DocumentResponse)
-def document(document_id: str, db: DbSession, current_user: CurrentUser):
+def document(document_id: int, db: DbSession, current_user: CurrentUser):
     return service.require_document(db=db, document_id=document_id, owner_id=current_user.id)
 
 
@@ -39,8 +39,9 @@ def ask(request: AskRequest, db: DbSession, current_user: CurrentUser):
 
 
 @router.post("/upload")
-async def upload(current_user: CurrentUser, file: Annotated[UploadFile, File()], name: Annotated[DocumentName, Form()]):
-    return await service.upload(
+def upload(db: DbSession, current_user: CurrentUser, file: Annotated[UploadFile, File()], name: Annotated[DocumentName, Form()]):
+    return service.upload(
+        db=db,
         file=file,
         owner_id=current_user.id,
         name=name,
@@ -51,7 +52,7 @@ async def upload(current_user: CurrentUser, file: Annotated[UploadFile, File()],
 def history(
     db: DbSession,
     current_user: CurrentUser,
-    document_id: str = Query(min_length=1),
+    document_id: int = Query(gt=0),
 ):
     return service.history(
         db=db,

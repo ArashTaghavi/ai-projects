@@ -12,7 +12,7 @@ export default function DocumentConversationPage(props: {
     return (
         <Suspense
             fallback={
-                <p role="status" className="p-6 text-sm text-zinc-400">
+                <p role="status" className="text-ui-secondary p-6 text-sm">
                     Loading conversation…
                 </p>
             }

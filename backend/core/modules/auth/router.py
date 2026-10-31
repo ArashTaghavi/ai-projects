@@ -8,6 +8,8 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 controller = AuthController()
 
+
+
 router.add_api_route(
     "/register",
     controller.register,

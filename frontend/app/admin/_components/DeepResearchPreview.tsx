@@ -109,19 +109,19 @@ export default function DeepResearchPreview() {
             aria-label="Illustrative research agent: planning, searching sample sources, comparing evidence, refining the search, and writing a cited brief"
             className="relative mt-3 overflow-hidden rounded-xl border border-blue-300/10 bg-[#0b0e16] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-blue-300 shadow-[0_0_8px_#93c5fd70]"
                     />
                     research.agent
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <Sparkles size={13} className="text-blue-300/70" />
                 <span>Deep research</span>
@@ -144,7 +144,7 @@ export default function DeepResearchPreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#303c55_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Starting a new investigation...</p>
+                    <p className="text-[10px] text-ui-subtle">Starting a new investigation...</p>
                 )}
                 {timeline
                     .filter((step) => elapsed >= step.start)
@@ -154,7 +154,7 @@ export default function DeepResearchPreview() {
                         return (
                             <div
                                 key={step.kind}
-                                className={`rounded-lg border p-2.5 ${step.kind === "question" ? "ml-6 border-white/6 bg-white/3" : step.kind === "verify" ? "border-amber-300/15 bg-amber-300/4" : "border-blue-300/10 bg-blue-300/3"}`}
+                                className={`rounded-lg border p-2.5 ${step.kind === "question" ? "ml-6 border-ui-border-subtle bg-white/3" : step.kind === "verify" ? "border-amber-300/15 bg-amber-300/4" : "border-blue-300/10 bg-blue-300/3"}`}
                             >
                                 <div
                                     className={`mb-1.5 flex items-center gap-1.5 text-[9px] font-medium tracking-wide ${step.kind === "verify" ? "text-amber-200/80" : "text-blue-300/80"}`}
@@ -165,7 +165,7 @@ export default function DeepResearchPreview() {
                                         <Check size={11} className="ml-auto text-blue-300/60" />
                                     )}
                                 </div>
-                                <p className="text-[11px] leading-5 text-zinc-300">
+                                <p className="text-[11px] leading-5 text-ui-soft">
                                     {step.text.slice(
                                         0,
                                         Math.floor((elapsed - step.start) / typingSpeed),
@@ -179,17 +179,17 @@ export default function DeepResearchPreview() {
                                         {sources.slice(0, 2).map((source) => (
                                             <div
                                                 key={source.id}
-                                                className="flex items-start gap-2 rounded border border-white/6 bg-black/10 px-2 py-1.5"
+                                                className="flex items-start gap-2 rounded border border-ui-border-subtle bg-black/10 px-2 py-1.5"
                                             >
                                                 <Globe
                                                     size={11}
                                                     className="mt-0.5 shrink-0 text-blue-300/60"
                                                 />
                                                 <div>
-                                                    <p className="text-[10px] text-zinc-400">
+                                                    <p className="text-[10px] text-ui-secondary">
                                                         [{source.id}] {source.title}
                                                     </p>
-                                                    <p className="mt-0.5 text-[9px] text-zinc-600">
+                                                    <p className="mt-0.5 text-[9px] text-ui-subtle">
                                                         {source.topic} · Sample source
                                                     </p>
                                                 </div>
@@ -204,7 +204,7 @@ export default function DeepResearchPreview() {
                                             className="mt-0.5 shrink-0 text-blue-300/60"
                                         />
                                         <div>
-                                            <p className="text-[10px] text-zinc-400">
+                                            <p className="text-[10px] text-ui-secondary">
                                                 [3] {sources[2].title}
                                             </p>
                                             <p className="mt-0.5 text-[9px] text-blue-300/60">
@@ -215,7 +215,7 @@ export default function DeepResearchPreview() {
                                 )}
                                 {step.kind === "report" && !typing && (
                                     <>
-                                        <p className="mt-2 border-t border-white/6 pt-2 text-[10px] leading-5 text-amber-200/70">
+                                        <p className="mt-2 border-t border-ui-border-subtle pt-2 text-[10px] leading-5 text-amber-200/70">
                                             Open question: local grid and long-duration storage
                                             costs still need verification.
                                         </p>
@@ -235,7 +235,7 @@ export default function DeepResearchPreview() {
                         );
                     })}
             </div>
-            <div className="flex items-center justify-between gap-2 border-t border-white/5 px-3 py-2 text-[9px] text-zinc-600">
+            <div className="flex items-center justify-between gap-2 border-t border-ui-border-faint px-3 py-2 text-[9px] text-ui-subtle">
                 <span>Illustrative research · Sample sources</span>
                 <span className="text-blue-300/60">
                     {complete ? "5 / 5 steps" : "Plan → Search → Verify"}

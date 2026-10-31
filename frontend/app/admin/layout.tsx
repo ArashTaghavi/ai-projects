@@ -7,7 +7,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             fallback={
                 <div
                     role="status"
-                    className="flex h-dvh items-center justify-center bg-[#0c0c11] text-sm text-zinc-400"
+                    className="admin-theme flex h-dvh items-center justify-center bg-[#0c0c11] text-sm text-ui-secondary"
                 >
                     Loading workspace…
                 </div>

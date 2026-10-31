@@ -79,19 +79,19 @@ export default function CustomerSupportPreview() {
             aria-label="Example support conversation: AI assistance, customer escalation, human intervention, and resolution"
             className="relative mt-3 overflow-hidden rounded-xl border border-emerald-300/10 bg-[#0b110f] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-emerald-300 shadow-[0_0_8px_#6ee7b770]"
                     />
                     support.chat
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <Headset size={13} className="text-emerald-300/70" />
                 <span>Customer care</span>
@@ -111,7 +111,7 @@ export default function CustomerSupportPreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#334139_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Starting conversation...</p>
+                    <p className="text-[10px] text-ui-subtle">Starting conversation...</p>
                 )}
                 {timeline
                     .filter((message) => elapsed >= message.start)
@@ -142,7 +142,7 @@ export default function CustomerSupportPreview() {
                                 className={`flex items-start gap-2 ${customer ? "ml-6 flex-row-reverse" : "mr-3"}`}
                             >
                                 <span
-                                    className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-lg border ${customer ? "border-white/8 bg-white/4 text-zinc-400" : human ? "border-amber-300/20 bg-amber-300/10 text-amber-200" : "border-emerald-300/15 bg-emerald-300/5 text-emerald-300"}`}
+                                    className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-lg border ${customer ? "border-ui-border-muted bg-white/4 text-ui-secondary" : human ? "border-amber-300/20 bg-amber-300/10 text-amber-200" : "border-emerald-300/15 bg-emerald-300/5 text-emerald-300"}`}
                                 >
                                     {customer ? (
                                         <UserRound size={12} />
@@ -153,11 +153,11 @@ export default function CustomerSupportPreview() {
                                     )}
                                 </span>
                                 <div
-                                    className={`min-w-0 flex-1 rounded-lg border px-2.5 py-2 ${customer ? "rounded-tr-sm border-white/6 bg-white/3" : human ? "rounded-tl-sm border-amber-300/15 bg-amber-300/5" : "rounded-tl-sm border-emerald-300/10 bg-emerald-300/3"}`}
+                                    className={`min-w-0 flex-1 rounded-lg border px-2.5 py-2 ${customer ? "rounded-tr-sm border-ui-border-subtle bg-white/3" : human ? "rounded-tl-sm border-amber-300/15 bg-amber-300/5" : "rounded-tl-sm border-emerald-300/10 bg-emerald-300/3"}`}
                                 >
                                     <div className="mb-1 flex flex-wrap items-center gap-2">
                                         <span
-                                            className={`text-[9px] font-medium tracking-wide ${human ? "text-amber-200" : customer ? "text-zinc-500" : "text-emerald-300/80"}`}
+                                            className={`text-[9px] font-medium tracking-wide ${human ? "text-amber-200" : customer ? "text-ui-muted" : "text-emerald-300/80"}`}
                                         >
                                             {customer
                                                 ? "CUSTOMER"
@@ -171,7 +171,7 @@ export default function CustomerSupportPreview() {
                                             </span>
                                         )}
                                     </div>
-                                    <p className="text-[11px] leading-5 text-zinc-300">
+                                    <p className="text-[11px] leading-5 text-ui-soft">
                                         {text}
                                         {typing && (
                                             <span

@@ -40,7 +40,7 @@ const serviceColumns: TableColumn<(typeof services)[number]>[] = [
         cell: (service) => (
             <div>
                 <p className="text-xs">{service.name}</p>
-                <p className="mt-1 text-[10px] font-normal text-zinc-500">{service.detail}</p>
+                <p className="mt-1 text-[10px] font-normal text-ui-muted">{service.detail}</p>
             </div>
         ),
     },
@@ -91,15 +91,15 @@ export default function OverviewDashboard() {
             icon={<LayoutDashboard className="size-5" />}
             actions={
                 <div className="flex items-center gap-3">
-                    <span className="text-[11px] text-zinc-500">Sample snapshot · 14:00 UTC</span>
+                    <span className="text-[11px] text-ui-muted">Sample snapshot · 14:00 UTC</span>
                     <StatusBadge>Demo data</StatusBadge>
                 </div>
             }
         >
             <div className="space-y-5 p-4 sm:p-5 lg:p-6">
-                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.025] px-4 py-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ui-border bg-white/[0.025] px-4 py-3">
                     <div className="space-y-1" role="status">
-                        <p className="text-xs text-zinc-300">
+                        <p className="text-xs text-ui-soft">
                             {isConnected
                                 ? metrics
                                     ? "Receiving server metrics"
@@ -110,7 +110,7 @@ export default function OverviewDashboard() {
                                     ? "Monitoring socket is offline"
                                     : "Connecting to the monitoring socket..."}
                         </p>
-                        <p className="text-[10px] text-zinc-500">
+                        <p className="text-[10px] text-ui-muted">
                             {receivedAt
                                 ? `Last received: ${new Date(receivedAt).toLocaleString("en-GB", { timeZone: "UTC" })} UTC. Metrics not yet received and other panels use demo data.`
                                 : "Sample data stays visible until the backend sends the first valid metrics event."}
@@ -134,7 +134,7 @@ export default function OverviewDashboard() {
                     </div>
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-400/15 bg-amber-400/[0.04] px-4 py-3">
-                    <p className="flex items-center gap-2 text-xs text-zinc-300">
+                    <p className="flex items-center gap-2 text-xs text-ui-soft">
                         <span className="size-1.5 rounded-full bg-amber-300" aria-hidden="true" />
                         Infrastructure operational · AI inference needs attention
                     </p>
@@ -153,7 +153,7 @@ export default function OverviewDashboard() {
                         label="Average response · 24h"
                         value={
                             <>
-                                142 <span className="text-sm font-normal text-zinc-500">ms</span>
+                                142 <span className="text-sm font-normal text-ui-muted">ms</span>
                             </>
                         }
                         icon={<Clock3 />}
@@ -184,7 +184,7 @@ export default function OverviewDashboard() {
                             <div
                                 role="group"
                                 aria-label="Traffic time range"
-                                className="flex gap-1 rounded-lg border border-white/10 p-1"
+                                className="flex gap-1 rounded-lg border border-ui-border p-1"
                             >
                                 {(Object.keys(traffic) as TrafficRange[]).map((period) => (
                                     <button
@@ -192,7 +192,7 @@ export default function OverviewDashboard() {
                                         type="button"
                                         aria-pressed={range === period}
                                         onClick={() => setRange(period)}
-                                        className={`cursor-pointer rounded-md px-2.5 py-1 text-[11px] transition focus-visible:outline-2 focus-visible:outline-violet-400 ${range === period ? "bg-violet-400/15 text-violet-200" : "text-zinc-500 hover:text-zinc-200"}`}
+                                        className={`cursor-pointer rounded-md px-2.5 py-1 text-[11px] transition focus-visible:outline-2 focus-visible:outline-violet-400 ${range === period ? "bg-violet-400/15 text-violet-200" : "text-ui-muted hover:text-zinc-200"}`}
                                     >
                                         {period}
                                     </button>
@@ -206,7 +206,7 @@ export default function OverviewDashboard() {
                                 <p className="text-2xl font-semibold tracking-tight tabular-nums">
                                     {chart.requests}
                                 </p>
-                                <p className="mt-1 text-[11px] text-zinc-500">
+                                <p className="mt-1 text-[11px] text-ui-muted">
                                     requests in selected period
                                 </p>
                             </div>
@@ -231,7 +231,7 @@ export default function OverviewDashboard() {
                         }
                         action={
                             <div className="flex items-center gap-2">
-                                <Server size={15} className="text-zinc-500" aria-hidden="true" />
+                                <Server size={15} className="text-ui-muted" aria-hidden="true" />
                                 <StatusBadge tone={resourceTone}>{resourceStatus}</StatusBadge>
                             </div>
                         }
@@ -267,9 +267,9 @@ export default function OverviewDashboard() {
                             }
                             icon={<HardDrive />}
                         />
-                        <div className="flex items-center justify-between border-t border-white/[0.06] pt-3 text-[11px]">
-                            <span className="text-zinc-500">Server uptime</span>
-                            <span className="font-mono text-zinc-300">
+                        <div className="flex items-center justify-between border-t border-ui-border-subtle pt-3 text-[11px]">
+                            <span className="text-ui-muted">Server uptime</span>
+                            <span className="font-mono text-ui-soft">
                                 {metrics?.uptime_seconds !== undefined
                                     ? formatUptime(metrics.uptime_seconds)
                                     : "24d 16h 32m (sample)"}
@@ -301,8 +301,8 @@ export default function OverviewDashboard() {
                         {jobs.map((job) => (
                             <div key={job.label}>
                                 <div className="mb-2 flex justify-between gap-2 text-xs">
-                                    <span className="text-zinc-300">{job.label}</span>
-                                    <span className="text-zinc-400">
+                                    <span className="text-ui-soft">{job.label}</span>
+                                    <span className="text-ui-secondary">
                                         <span className="font-mono text-zinc-200">{job.value}</span>{" "}
                                         {job.detail}
                                     </span>
@@ -318,7 +318,7 @@ export default function OverviewDashboard() {
                                 </div>
                             </div>
                         ))}
-                        <div className="flex items-center gap-2 border-t border-white/[0.06] pt-4 text-[11px] text-emerald-300">
+                        <div className="flex items-center gap-2 border-t border-ui-border-subtle pt-4 text-[11px] text-emerald-300">
                             <CheckCheck size={14} aria-hidden="true" />
                             1,842 jobs completed today
                         </div>
@@ -328,15 +328,15 @@ export default function OverviewDashboard() {
                 <Panel
                     title="Recent activity"
                     description="Infrastructure and workspace events"
-                    action={<span className="text-[10px] text-zinc-500">Sample events</span>}
+                    action={<span className="text-[10px] text-ui-muted">Sample events</span>}
                 >
-                    <ul className="grid divide-y divide-white/[0.06] lg:grid-cols-2 lg:divide-y-0">
+                    <ul className="grid divide-y divide-ui-border-subtle lg:grid-cols-2 lg:divide-y-0">
                         {activity.map((event) => {
                             const Icon = eventIcons[event.type];
                             return (
                                 <li key={event.id} className="flex items-start gap-3 p-4 sm:p-5">
                                     <span
-                                        className={`mt-0.5 rounded-lg border p-2 ${event.type === "warning" ? "border-amber-400/15 bg-amber-400/5 text-amber-300" : "border-white/10 bg-white/5 text-zinc-400"}`}
+                                        className={`mt-0.5 rounded-lg border p-2 ${event.type === "warning" ? "border-amber-400/15 bg-amber-400/5 text-amber-300" : "border-ui-border bg-white/5 text-ui-secondary"}`}
                                     >
                                         <Icon size={14} aria-hidden="true" />
                                     </span>
@@ -345,11 +345,11 @@ export default function OverviewDashboard() {
                                             <p className="text-xs font-medium text-zinc-200">
                                                 {event.title}
                                             </p>
-                                            <span className="text-[10px] text-zinc-500">
+                                            <span className="text-[10px] text-ui-muted">
                                                 {event.time}
                                             </span>
                                         </div>
-                                        <p className="mt-1 text-[11px] leading-5 text-zinc-500">
+                                        <p className="mt-1 text-[11px] leading-5 text-ui-muted">
                                             {event.detail}
                                         </p>
                                     </div>

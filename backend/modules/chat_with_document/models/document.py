@@ -8,7 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 class Document(BaseModel):
     __tablename__ = "documents"
 
-    id: Mapped[str] = mapped_column(String(255), primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     owner_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), index=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     original_file_name: Mapped[str] = mapped_column(String(255))

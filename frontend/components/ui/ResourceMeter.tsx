@@ -13,13 +13,13 @@ export default function ResourceMeter({ label, value, detail, icon }: ResourceMe
     return (
         <div>
             <div className="mb-2.5 flex items-center justify-between gap-3 text-xs">
-                <span className="flex items-center gap-2 text-zinc-300">
-                    <span aria-hidden="true" className="text-zinc-500 [&>svg]:size-3.5">
+                <span className="flex items-center gap-2 text-ui-soft">
+                    <span aria-hidden="true" className="text-ui-muted [&>svg]:size-3.5">
                         {icon}
                     </span>
                     {label}
                 </span>
-                <span className="font-mono text-zinc-300">{percent}%</span>
+                <span className="font-mono text-ui-soft">{percent}%</span>
             </div>
             <div
                 role="progressbar"
@@ -31,7 +31,7 @@ export default function ResourceMeter({ label, value, detail, icon }: ResourceMe
             >
                 <div style={{ width: `${percent}%` }} className={`h-full rounded-full ${color}`} />
             </div>
-            {detail && <p className="mt-2 text-[11px] text-zinc-500">{detail}</p>}
+            {detail && <p className="mt-2 text-[11px] text-ui-muted">{detail}</p>}
         </div>
     );
 }

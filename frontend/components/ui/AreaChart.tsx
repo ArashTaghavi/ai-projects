@@ -10,7 +10,7 @@ export interface AreaChartProps {
 export default function AreaChart({ values, labels, label, unit = "" }: AreaChartProps) {
     const id = useId().replaceAll(":", "");
     const samples = values.map((value) => (Number.isFinite(value) ? Math.max(0, value) : 0));
-    if (!samples.length) return <p className="p-6 text-sm text-zinc-500">No chart data.</p>;
+    if (!samples.length) return <p className="p-6 text-sm text-ui-muted">No chart data.</p>;
     const max = Math.max(1, ...samples) * 1.15;
     const points = samples.map(
         (value, index) =>
@@ -18,7 +18,7 @@ export default function AreaChart({ values, labels, label, unit = "" }: AreaChar
     );
     return (
         <div className="flex gap-3">
-            <div className="flex w-12 shrink-0 flex-col justify-between pb-6 text-right font-mono text-[10px] text-zinc-500">
+            <div className="flex w-12 shrink-0 flex-col justify-between pb-6 text-right font-mono text-[10px] text-ui-muted">
                 {[max, max / 2, 0].map((value, index) => (
                     <span key={index}>
                         {Math.round(value).toLocaleString("en-US")}
@@ -66,7 +66,7 @@ export default function AreaChart({ values, labels, label, unit = "" }: AreaChar
                         strokeLinejoin="round"
                     />
                 </svg>
-                <div className="mt-2 flex justify-between text-[10px] text-zinc-500">
+                <div className="mt-2 flex justify-between text-[10px] text-ui-muted">
                     {labels.map((text, index) => (
                         <span key={index}>{text}</span>
                     ))}

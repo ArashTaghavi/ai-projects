@@ -129,19 +129,19 @@ export default function WorkflowAutomationPreview() {
             aria-label="Illustrative invoice workflow with connected tools, human approval, checkpoint recovery, and an idempotent retry"
             className="relative mt-3 overflow-hidden rounded-xl border border-teal-300/10 bg-[#0b1212] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-teal-300 shadow-[0_0_8px_#5eead470]"
                     />
                     workflow.run
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <Workflow size={13} className="text-teal-300/70" />
                 <span>Invoice processing / WF-2048</span>
@@ -162,7 +162,7 @@ export default function WorkflowAutomationPreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#2d4744_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Preparing a new workflow run...</p>
+                    <p className="text-[10px] text-ui-subtle">Preparing a new workflow run...</p>
                 )}
                 {timeline
                     .filter((step) => elapsed >= step.start)
@@ -185,10 +185,10 @@ export default function WorkflowAutomationPreview() {
                         return (
                             <div
                                 key={step.kind}
-                                className={`rounded-lg border p-2.5 ${step.kind === "request" ? "ml-6 border-white/6 bg-white/3" : waiting || human ? "border-amber-300/15 bg-amber-300/4" : "border-teal-300/10 bg-teal-300/3"}`}
+                                className={`rounded-lg border p-2.5 ${step.kind === "request" ? "ml-6 border-ui-border-subtle bg-white/3" : waiting || human ? "border-amber-300/15 bg-amber-300/4" : "border-teal-300/10 bg-teal-300/3"}`}
                             >
                                 <div
-                                    className={`mb-1.5 flex flex-wrap items-center gap-1.5 text-[9px] font-medium tracking-wide ${waiting || human ? "text-amber-200/80" : step.kind === "request" ? "text-zinc-500" : "text-teal-300/80"}`}
+                                    className={`mb-1.5 flex flex-wrap items-center gap-1.5 text-[9px] font-medium tracking-wide ${waiting || human ? "text-amber-200/80" : step.kind === "request" ? "text-ui-muted" : "text-teal-300/80"}`}
                                 >
                                     <Icon size={12} />
                                     <span>{step.label}</span>
@@ -199,7 +199,7 @@ export default function WorkflowAutomationPreview() {
                                     )}
                                     {!typing && !waiting && <Check size={11} className="ml-auto" />}
                                 </div>
-                                <p className="text-[11px] leading-5 text-zinc-300">
+                                <p className="text-[11px] leading-5 text-ui-soft">
                                     {step.text.slice(
                                         0,
                                         Math.floor((elapsed - step.start) / typingSpeed),
@@ -224,17 +224,17 @@ export default function WorkflowAutomationPreview() {
                                         ].map(({ icon: ToolIcon, tool, detail }) => (
                                             <div
                                                 key={tool}
-                                                className="flex items-start gap-2 rounded border border-white/6 bg-black/10 px-2 py-1.5"
+                                                className="flex items-start gap-2 rounded border border-ui-border-subtle bg-black/10 px-2 py-1.5"
                                             >
                                                 <ToolIcon
                                                     size={11}
                                                     className="mt-0.5 text-teal-300/60"
                                                 />
                                                 <div>
-                                                    <p className="font-mono text-[9px] text-zinc-400">
+                                                    <p className="font-mono text-[9px] text-ui-secondary">
                                                         {tool}
                                                     </p>
-                                                    <p className="mt-0.5 text-[9px] text-zinc-600">
+                                                    <p className="mt-0.5 text-[9px] text-ui-subtle">
                                                         {detail}
                                                     </p>
                                                 </div>
@@ -250,14 +250,14 @@ export default function WorkflowAutomationPreview() {
                                         </p>
                                         <dl className="mt-2 grid grid-cols-2 gap-2 text-[9px]">
                                             <div>
-                                                <dt className="text-zinc-600">Requested action</dt>
-                                                <dd className="mt-0.5 text-zinc-400">
+                                                <dt className="text-ui-subtle">Requested action</dt>
+                                                <dd className="mt-0.5 text-ui-secondary">
                                                     Post bill · $4,800
                                                 </dd>
                                             </div>
                                             <div>
-                                                <dt className="text-zinc-600">Assigned approver</dt>
-                                                <dd className="mt-0.5 text-zinc-400">
+                                                <dt className="text-ui-subtle">Assigned approver</dt>
+                                                <dd className="mt-0.5 text-ui-secondary">
                                                     Maya / Finance
                                                 </dd>
                                             </div>
@@ -272,7 +272,7 @@ export default function WorkflowAutomationPreview() {
                                     </div>
                                 )}
                                 {step.kind === "retry" && !typing && (
-                                    <p className="mt-2 rounded border border-white/6 bg-black/10 px-2 py-1.5 font-mono text-[9px] break-all text-amber-200/70">
+                                    <p className="mt-2 rounded border border-ui-border-subtle bg-black/10 px-2 py-1.5 font-mono text-[9px] break-all text-amber-200/70">
                                         idempotency_key: WF-2048:post-bill
                                     </p>
                                 )}
@@ -295,7 +295,7 @@ export default function WorkflowAutomationPreview() {
                         );
                     })}
             </div>
-            <div className="flex items-center justify-between gap-2 border-t border-white/5 px-3 py-2 text-[9px] text-zinc-600">
+            <div className="flex items-center justify-between gap-2 border-t border-ui-border-faint px-3 py-2 text-[9px] text-ui-subtle">
                 <span className="flex items-center gap-1">
                     <FileText size={10} />
                     Simulated workflow · Sample data

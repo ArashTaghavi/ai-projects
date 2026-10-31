@@ -1,6 +1,9 @@
 import os
 from functools import lru_cache
 from pathlib import Path
+from uuid import uuid4
+
+from fastapi import HTTPException, UploadFile
 
 from core import config as _environment_config
 from langchain.chat_models import init_chat_model
@@ -68,6 +71,23 @@ class ChatWithDocument:
 
         self.rewrite_chain = self.rewrite_prompt | self.llm | StrOutputParser()
 
+    @staticmethod
+    def prepare_upload(file: UploadFile, name: str) -> tuple[str, Path]:
+        name = name.strip()
+        if not name or len(name) > 255:
+            raise HTTPException(
+                status_code=422,
+                detail="Document name must contain 1 to 255 characters.",
+            )
+        if not file.filename or Path(file.filename).suffix.lower() != ".docx":
+            raise HTTPException(status_code=400, detail="Only DOCX files are allowed.")
+
+        filename = f"{uuid4().hex}.docx"
+        storage_path = Path(__file__).resolve().parent.parent / "storage" / "documents"
+        storage_path.mkdir(parents=True, exist_ok=True)
+        file_path = storage_path / filename
+        return name, file_path
+
     def _load_document(self, file_path: Path) -> list[Document]:
         loader = Docx2txtLoader(file_path=file_path)
         return loader.load()
@@ -98,13 +118,10 @@ class ChatWithDocument:
 
     def ingest(
         self,
-        file_path: Path,
-        document_id: str,
+        chunks: list[Document],
+        document_id: int,
         owner_id: int,
     ) -> list[str]:
-
-        documents = self._load_document(file_path=file_path)
-        chunks = self._split_document(documents=documents)
 
         if not chunks:
             raise EmptyDocumentError("Document contains no extractable text.")
@@ -130,7 +147,7 @@ class ChatWithDocument:
     def retrieve_documents(
         self,
         query: str,
-        document_id: str,
+        document_id: int,
         owner_id: int,
         k: int = RETRIEVAL_K,
     ) -> list[Document]:
@@ -163,7 +180,7 @@ class ChatWithDocument:
     def generate_answer(
         self,
         query: str,
-        document_id: str,
+        document_id: int,
         owner_id: int,
         chat_history: list[BaseMessage],
     ) -> str | None:

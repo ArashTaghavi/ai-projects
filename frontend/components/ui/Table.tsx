@@ -39,7 +39,7 @@ export default function Table<T>({
         <div className={`overflow-x-auto ${className}`}>
             <table className={`w-full text-left text-sm ${tableClassName}`} aria-busy={loading}>
                 <caption className="sr-only">{caption}</caption>
-                <thead className="border-b border-white/10 bg-white/[0.035] text-xs tracking-wider text-zinc-400 uppercase">
+                <thead className="border-b border-ui-border bg-white/[0.035] text-xs tracking-wider text-ui-secondary uppercase">
                     <tr>
                         {columns.map((column) => (
                             <th
@@ -52,7 +52,7 @@ export default function Table<T>({
                         ))}
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.06]">
+                <tbody className="divide-y divide-ui-border-subtle">
                     {error != null ? (
                         <tr>
                             <td colSpan={columns.length} className="px-4 py-10 text-center">
@@ -73,7 +73,7 @@ export default function Table<T>({
                         <tr>
                             <td
                                 colSpan={columns.length}
-                                className="px-4 py-10 text-center text-zinc-400"
+                                className="px-4 py-10 text-center text-ui-secondary"
                             >
                                 {emptyState}
                             </td>
@@ -95,10 +95,10 @@ export default function Table<T>({
                                         <Cell
                                             key={column.id}
                                             scope={column.rowHeader ? "row" : undefined}
-                                            className={`px-4 py-3 ${column.rowHeader ? "font-medium text-zinc-100" : "text-zinc-300"} ${column.cellClassName ?? ""}`}
+                                            className={`px-4 py-3 ${column.rowHeader ? "font-medium text-zinc-100" : "text-ui-soft"} ${column.cellClassName ?? ""}`}
                                         >
                                             {isEmpty ? (
-                                                <span className="text-zinc-500">---</span>
+                                                <span className="text-ui-muted">---</span>
                                             ) : (
                                                 value
                                             )}

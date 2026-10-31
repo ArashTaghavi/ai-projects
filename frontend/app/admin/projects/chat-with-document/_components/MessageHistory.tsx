@@ -10,7 +10,7 @@ function MessageTime({ timestamp }: { timestamp: string }) {
             title={date.full}
             aria-label={date.full}
             dir="rtl"
-            className="mt-2 block text-right text-[10px] text-zinc-400 tabular-nums"
+            className="text-ui-secondary mt-2 block text-right text-[10px] tabular-nums"
         >
             {date.time}
         </time>
@@ -27,7 +27,7 @@ export default function MessageHistory({ turns }: { turns: ChatTurnResponse[] })
             <div className="sticky top-0 z-10 flex justify-center py-2">
                 <span
                     dir="rtl"
-                    className="rounded-full border border-white/10 bg-[#20202b]/95 px-4 py-1.5 text-xs text-zinc-300 shadow-sm backdrop-blur-md"
+                    className="border-ui-border text-ui-soft rounded-full border bg-[#20202b]/95 px-4 py-1.5 text-xs shadow-sm backdrop-blur-md"
                 >
                     {group.label}
                 </span>
@@ -45,7 +45,7 @@ export default function MessageHistory({ turns }: { turns: ChatTurnResponse[] })
                         <MessageTime timestamp={turn.created_at} />
                     </div>
                     <div className="mr-auto max-w-[95%] rounded-2xl rounded-tl-sm bg-white/5 p-4">
-                        <p className="mb-2 text-xs text-zinc-400">Assistant</p>
+                        <p className="text-ui-secondary mb-2 text-xs">Assistant</p>
                         <p
                             dir="auto"
                             className="text-sm leading-7 break-words whitespace-pre-wrap text-zinc-200"

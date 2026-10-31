@@ -26,7 +26,7 @@ export default function AdminPage({
                     {icon && (
                         <span
                             aria-hidden="true"
-                            className="rounded-2xl border border-white/10 bg-white/5 p-3 text-violet-300"
+                            className="rounded-2xl border border-ui-border bg-white/5 p-3 text-violet-300"
                         >
                             {icon}
                         </span>
@@ -35,17 +35,17 @@ export default function AdminPage({
                         <h1 className="text-2xl font-semibold tracking-tight text-white">
                             {title}
                         </h1>
-                        {description && <p className="mt-1 text-sm text-zinc-400">{description}</p>}
+                        {description && <p className="mt-1 text-sm text-ui-secondary">{description}</p>}
                     </div>
                 </div>
                 {actions}
             </div>
             {(toolbar != null || children != null) && (
                 <div
-                    className={`min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] ${fillHeight ? "flex min-h-0 flex-1 flex-col" : ""}`}
+                    className={`min-w-0 overflow-hidden rounded-2xl border border-ui-border bg-white/[0.025] ${fillHeight ? "flex min-h-0 flex-1 flex-col" : ""}`}
                 >
                     {toolbar && (
-                        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 p-5">
+                        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-ui-border p-5">
                             {toolbar}
                         </div>
                     )}

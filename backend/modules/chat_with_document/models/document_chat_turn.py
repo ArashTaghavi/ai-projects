@@ -7,7 +7,6 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     Integer,
-    String,
     Text,
     func,
 )
@@ -21,8 +20,8 @@ class DocumentChatTurn(BaseModel):
     )
 
     id: Mapped[int] = mapped_column(BigInteger().with_variant(Integer, "sqlite"), primary_key=True)
-    document_id: Mapped[str] = mapped_column(
-        String(255),
+    document_id: Mapped[int] = mapped_column(
+        Integer,
         ForeignKey("documents.id"),
         nullable=False,
         index=True,

@@ -15,8 +15,10 @@ export function useAskDocument() {
     const client = useQueryClient();
     return useMutation({
         mutationFn: chatWithDocumentService.ask,
-        onSuccess: (_, payload) =>
-            client.invalidateQueries({ queryKey: ["document-chat-history", payload.document_id] }),
+        onSuccess: (_, payload) => Promise.all([
+            client.invalidateQueries({ queryKey: ["document-chat-history", String(payload.document_id)] }),
+            client.invalidateQueries({ queryKey: ["document-chats"] }),
+        ]),
     });
 }
 

@@ -25,7 +25,7 @@ export default function Header() {
             <dialog
                 ref={mobileMenu}
                 aria-labelledby="mobile-menu-title"
-                className="fixed inset-y-0 right-auto left-0 m-0 h-dvh max-h-none w-72 max-w-[85vw] border-r border-white/10 bg-[#101016] p-6 text-zinc-100 backdrop:bg-black/70 lg:hidden"
+                className="fixed inset-y-0 right-auto left-0 m-0 h-dvh max-h-none w-72 max-w-[85vw] border-r border-ui-border bg-[#101016] p-6 text-zinc-100 backdrop:bg-black/70 lg:hidden"
             >
                 <div className="mb-10 flex items-center justify-between gap-2">
                     <h2 id="mobile-menu-title" className="text-sm font-semibold">
@@ -35,28 +35,28 @@ export default function Header() {
                         type="button"
                         onClick={() => mobileMenu.current?.close()}
                         aria-label="Close menu"
-                        className="rounded-lg p-2 text-zinc-400 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-violet-400"
+                        className="rounded-lg p-2 text-ui-secondary hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-violet-400"
                     >
                         <X size={20} />
                     </button>
                 </div>
                 <Navigation onNavigate={() => mobileMenu.current?.close()} />
             </dialog>
-            <header className="sticky top-0 z-20 flex min-h-20 items-center justify-between gap-4 border-b border-white/6 bg-[#0c0c11]/90 px-5 backdrop-blur-xl sm:px-8 lg:px-10">
+            <header className="sticky top-0 z-20 flex min-h-20 items-center justify-between gap-4 border-b border-ui-border-subtle bg-[#0c0c11]/90 px-5 backdrop-blur-xl sm:px-8 lg:px-10">
                 <div className="flex items-center gap-3">
                     <button
                         type="button"
                         onClick={() => mobileMenu.current?.showModal()}
                         aria-label="Open navigation menu"
                         aria-haspopup="dialog"
-                        className="rounded-lg p-2 text-zinc-400 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-violet-400 lg:hidden"
+                        className="rounded-lg p-2 text-ui-secondary hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-violet-400 lg:hidden"
                     >
                         <Menu size={20} />
                     </button>
-                    <span className="hidden text-xs text-zinc-500 sm:inline">Workspace</span>
+                    <span className="hidden text-xs text-ui-muted sm:inline">Workspace</span>
                     <ChevronRight
                         size={13}
-                        className="hidden text-zinc-700 sm:block"
+                        className="hidden text-ui-dim sm:block"
                         aria-hidden="true"
                     />
                     <span className="text-xs font-medium text-zinc-200">{pageLabel}</span>
@@ -72,7 +72,7 @@ export default function Header() {
                         <p className="max-w-40 truncate text-xs font-medium">
                             {username || (isPending ? "Loading…" : "Account")}
                         </p>
-                        <p className="mt-1 text-[10px] text-zinc-500">
+                        <p className="mt-1 text-[10px] text-ui-muted">
                             {isError ? "Account unavailable" : "Signed-in account"}
                         </p>
                     </div>

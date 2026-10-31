@@ -149,19 +149,19 @@ export default function MultiAgentPreview() {
             aria-label="Illustrative multi-agent workspace with supervisor delegation, shared research, reviewer feedback, revision, and final delivery"
             className="relative mt-3 overflow-hidden rounded-xl border border-fuchsia-300/10 bg-[#120d16] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-fuchsia-300 shadow-[0_0_8px_#f0abfc70]"
                     />
                     agents.workspace
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <Network size={13} className="text-fuchsia-300/70" />
                 <span>Supervisor + 3 specialists</span>
@@ -184,7 +184,7 @@ export default function MultiAgentPreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#48304e_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Opening a shared workspace...</p>
+                    <p className="text-[10px] text-ui-subtle">Opening a shared workspace...</p>
                 )}
                 {timeline
                     .filter((step) => elapsed >= step.start)
@@ -207,10 +207,10 @@ export default function MultiAgentPreview() {
                         return (
                             <div
                                 key={step.kind}
-                                className={`rounded-lg border p-2.5 ${step.kind === "request" ? "ml-6 border-white/6 bg-white/3" : reviewer ? "border-amber-300/15 bg-amber-300/4" : researcher ? "border-sky-300/10 bg-sky-300/3" : "border-fuchsia-300/10 bg-fuchsia-300/3"}`}
+                                className={`rounded-lg border p-2.5 ${step.kind === "request" ? "ml-6 border-ui-border-subtle bg-white/3" : reviewer ? "border-amber-300/15 bg-amber-300/4" : researcher ? "border-sky-300/10 bg-sky-300/3" : "border-fuchsia-300/10 bg-fuchsia-300/3"}`}
                             >
                                 <div
-                                    className={`mb-1.5 flex items-center gap-1.5 text-[9px] font-medium tracking-wide ${step.kind === "request" ? "text-zinc-500" : color}`}
+                                    className={`mb-1.5 flex items-center gap-1.5 text-[9px] font-medium tracking-wide ${step.kind === "request" ? "text-ui-muted" : color}`}
                                 >
                                     <Icon size={12} className="shrink-0" />
                                     <span>{step.label}</span>
@@ -218,7 +218,7 @@ export default function MultiAgentPreview() {
                                         <Check size={11} className="ml-auto shrink-0" />
                                     )}
                                 </div>
-                                <p className="text-[11px] leading-5 text-zinc-300">
+                                <p className="text-[11px] leading-5 text-ui-soft">
                                     {step.text.slice(
                                         0,
                                         Math.floor((elapsed - step.start) / typingSpeed),
@@ -238,7 +238,7 @@ export default function MultiAgentPreview() {
                                             }) => (
                                                 <div
                                                     key={name}
-                                                    className="flex items-start gap-2 rounded border border-white/6 bg-black/10 px-2 py-1.5"
+                                                    className="flex items-start gap-2 rounded border border-ui-border-subtle bg-black/10 px-2 py-1.5"
                                                 >
                                                     <AgentIcon
                                                         size={11}
@@ -248,7 +248,7 @@ export default function MultiAgentPreview() {
                                                         <p className={`text-[10px] ${agentColor}`}>
                                                             {name}
                                                         </p>
-                                                        <p className="mt-0.5 text-[9px] text-zinc-500">
+                                                        <p className="mt-0.5 text-[9px] text-ui-muted">
                                                             {task}
                                                         </p>
                                                     </div>
@@ -298,8 +298,8 @@ export default function MultiAgentPreview() {
                         );
                     })}
             </div>
-            <div aria-hidden="true" className="space-y-1.5 border-t border-white/5 px-3 py-2">
-                <p className="flex items-center gap-1.5 text-[8px] tracking-wider text-zinc-600">
+            <div aria-hidden="true" className="space-y-1.5 border-t border-ui-border-faint px-3 py-2">
+                <p className="flex items-center gap-1.5 text-[8px] tracking-wider text-ui-subtle">
                     <Users size={10} />
                     SHARED STATE · SIMULATED
                 </p>
@@ -307,13 +307,13 @@ export default function MultiAgentPreview() {
                     {state.map((field) => (
                         <span
                             key={field.key}
-                            className="rounded border border-fuchsia-300/8 bg-fuchsia-300/3 px-1.5 py-1 font-mono text-[8px] text-zinc-500"
+                            className="rounded border border-fuchsia-300/8 bg-fuchsia-300/3 px-1.5 py-1 font-mono text-[8px] text-ui-muted"
                         >
                             {field.key}:{" "}
                             <span
                                 className={
                                     field.value === "pending"
-                                        ? "text-zinc-600"
+                                        ? "text-ui-subtle"
                                         : "text-fuchsia-200/70"
                                 }
                             >

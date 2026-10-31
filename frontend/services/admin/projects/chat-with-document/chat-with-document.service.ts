@@ -2,7 +2,7 @@ import { httpClient } from "@/lib/http-client";
 
 export interface UploadedDocument {
     name: string;
-    document_id: string;
+    document_id: number;
     original_filename: string;
     chunks_count: number;
     message: string;
@@ -10,13 +10,15 @@ export interface UploadedDocument {
 
 export interface DocumentResponse {
     name: string;
-    id: string;
+    id: number;
     original_file_name: string;
     created_at: string;
+    last_message_preview: string | null;
+    last_message_at: string | null;
 }
 
 export interface AskPayload {
-    document_id: string;
+    document_id: number;
     query: string;
 }
 

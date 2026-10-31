@@ -25,7 +25,7 @@ function UserAvatar({ user }: { user: UserResponse }) {
         ((source.startsWith("/") && !source.startsWith("//")) || /^https?:\/\//i.test(source));
 
     return (
-        <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white/5 text-sm font-medium text-violet-200">
+        <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-ui-border bg-white/5 text-sm font-medium text-violet-200">
             {validSource && failedSource !== source ? (
                 <Image
                     src={source}
@@ -50,7 +50,7 @@ const columns: TableColumn<UserResponse>[] = [
         id: "id",
         header: "ID",
         headerClassName: "w-24",
-        cellClassName: "font-mono text-xs text-zinc-400",
+        cellClassName: "font-mono text-xs text-ui-secondary",
         cell: (user) => `#${user.id}`,
     },
     {
@@ -191,11 +191,11 @@ export default function Users() {
                 emptyState={
                     <>
                         <UsersRound
-                            className="mx-auto mb-3 size-8 text-zinc-500"
+                            className="mx-auto mb-3 size-8 text-ui-muted"
                             aria-hidden="true"
                         />
                         <p className="font-medium text-zinc-200">No users yet</p>
-                        <p className="mt-1 text-zinc-400">
+                        <p className="mt-1 text-ui-secondary">
                             Users will appear here once they register.
                         </p>
                     </>

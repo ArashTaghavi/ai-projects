@@ -70,7 +70,7 @@ export default function ActionButton({
                 aria-haspopup="menu"
                 aria-expanded={open}
                 aria-controls={open ? id : undefined}
-                className={`inline-flex size-7 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-zinc-300 hover:text-white focus-visible:outline-2 focus-visible:outline-violet-400 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
+                className={`inline-flex size-7 cursor-pointer items-center justify-center rounded border-0 bg-transparent p-0 text-ui-soft hover:text-white focus-visible:outline-2 focus-visible:outline-violet-400 disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
                 onClick={() => {
                     if (open) {
                         close();
@@ -99,7 +99,7 @@ export default function ActionButton({
                             id={id}
                             role="menu"
                             aria-label={label}
-                            className="fixed z-50 flex max-h-[50vh] w-16 flex-col items-center gap-1 overflow-y-auto rounded-xl border border-white/15 bg-zinc-950/95 p-1.5 shadow-xl backdrop-blur-xl"
+                            className="fixed z-50 flex max-h-[50vh] w-16 flex-col items-center gap-1 overflow-y-auto rounded-xl border border-ui-border-strong bg-zinc-950/95 p-1.5 shadow-xl backdrop-blur-xl"
                             style={
                                 position.top < window.innerHeight / 2
                                     ? position

@@ -18,7 +18,7 @@ export default function LoginCard() {
         completing.current = true;
         setAuthenticated(true);
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        redirectTimer.current = setTimeout(() => router.push("/"), reducedMotion ? 150 : 1100);
+        redirectTimer.current = setTimeout(() => router.push("/admin"), reducedMotion ? 150 : 1100);
     }
 
     return (

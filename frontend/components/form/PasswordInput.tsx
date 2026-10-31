@@ -40,7 +40,7 @@ export default function PasswordInput<T extends FieldValues>({
                 disabled={disabled}
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 aria-pressed={showPassword}
-                className="absolute top-7 right-1 flex h-12 w-10 items-center justify-center rounded-lg text-zinc-600 transition hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-violet-400 disabled:opacity-50"
+                className="absolute top-7 right-1 flex h-12 w-10 items-center justify-center rounded-lg text-ui-subtle transition hover:text-zinc-200 focus-visible:outline-2 focus-visible:outline-violet-400 disabled:opacity-50"
             >
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>

@@ -86,7 +86,7 @@ export default function SiteHeader() {
                     </Link>
                 </nav>
                 <Link
-                    href="/auth"
+                    href="/admin"
                     className="order-2 inline-flex items-center gap-2 justify-self-end rounded-xl border border-white/20 bg-white/5 px-4 py-2 text-sm font-medium whitespace-nowrap text-zinc-100 shadow-[inset_0_1px_0_#ffffff1a,0_4px_16px_#00000020] backdrop-blur-xl transition-colors hover:border-sky-200/40 hover:bg-white/10 hover:text-sky-100 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-200 sm:order-3"
                 >
                     Get started

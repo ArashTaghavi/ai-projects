@@ -16,10 +16,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants: Record<ButtonVariant, string> = {
     primary: "border-violet-300/20 bg-violet-600 text-white hover:bg-violet-500",
-    secondary: "border-white/10 bg-white/5 text-zinc-200 hover:bg-white/10",
+    secondary: "border-ui-border bg-white/5 text-zinc-200 hover:bg-white/10",
     danger: "border-red-400/20 bg-red-600 text-white hover:bg-red-500",
     "outline-danger":
-        "border-white/8 bg-transparent text-zinc-400 hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-300",
+        "border-ui-border-muted bg-transparent text-ui-secondary hover:border-red-400/20 hover:bg-red-400/5 hover:text-red-300",
 };
 
 const sizes = {

@@ -3,7 +3,7 @@ from typing import Annotated
 from database.connection import DbSession
 from fastapi import Cookie, Request, Response
 
-from core.http.responses import DataMessageResponse
+from core.http.responses import DataMessageResponse, MessageResponse
 from core.websocket.websocket_manager import manager
 
 from .dependencies import CurrentUser
@@ -77,7 +77,7 @@ class AuthController:
         db: DbSession,
         response: Response,
         session: Annotated[str | None, Cookie()] = None,
-    ) -> dict[str, str]:
+    ) -> MessageResponse:
         self.service.logout(db=db, token=session)
 
         response.delete_cookie(
@@ -88,4 +88,4 @@ class AuthController:
             samesite="lax",
         )
 
-        return {"message": "Logged out successfully"}
+        return MessageResponse(message="Logged out successfully")

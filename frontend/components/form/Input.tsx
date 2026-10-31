@@ -31,7 +31,7 @@ export default function Input<T extends FieldValues>({
 
     return (
         <div className="space-y-2.5">
-            <label htmlFor={inputId} className="block text-xs font-medium text-zinc-300">
+            <label htmlFor={inputId} className="block text-xs font-medium text-ui-soft">
                 {label}
                 {error && (
                     <span id={errorId} role="alert" className="mx-2 text-xs text-red-300">
@@ -48,10 +48,10 @@ export default function Input<T extends FieldValues>({
                 aria-invalid={!!error}
                 aria-describedby={error ? errorId : undefined}
                 className={[
-                    "h-12 w-full rounded-xl border bg-[#0b0b10] px-4 text-sm text-zinc-100 transition outline-none placeholder:text-zinc-600 disabled:opacity-50",
+                    "h-12 w-full rounded-xl border bg-[#0b0b10] px-4 text-sm text-zinc-100 transition outline-none placeholder:text-ui-subtle disabled:opacity-50",
                     error
                         ? "border-red-400/60 focus:border-red-400 focus:ring-4 focus:ring-red-500/10"
-                        : "border-white/10 focus:border-violet-400/60 focus:ring-4 focus:ring-violet-500/10",
+                        : "border-ui-border focus:border-violet-400/60 focus:ring-4 focus:ring-violet-500/10",
                     className,
                 ].join(" ")}
             />

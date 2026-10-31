@@ -4,10 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeft, FileText, MessageSquare, Plus, Send, Upload } from "lucide-react";
 import { FileInput, Form, Input } from "@/components/form";
 import { Button } from "@/components/ui";
 import MessageHistory from "./MessageHistory";
+import { messageDate } from "../_lib/message-dates";
+import { newChatSchema, type NewChatFormValues } from "../_schemas/new-chat.schema";
 import {
     useAskDocument,
     useUploadDocument,
@@ -16,7 +19,6 @@ import {
     useDocument,
 } from "../../_hooks/useDocumentChat";
 
-type UploadValues = { file: File | null; name: string };
 type QuestionValues = { query: string };
 
 export default function DocumentChat({ documentId = null }: { documentId?: string | null }) {
@@ -25,10 +27,13 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
     const activeId = documentId;
     const selectedDocument = useDocument(activeId);
     const [showList, setShowList] = useState(false);
+    const [uploadFormKey, setUploadFormKey] = useState(0);
     const history = useDocumentHistory(activeId);
     const conversations = (documents.data ?? []).map((document) => ({
-        id: document.id,
+        id: String(document.id),
         title: document.name,
+        preview: document.last_message_preview,
+        timestamp: document.last_message_at,
     }));
     const active = selectedDocument.data
         ? { id: selectedDocument.data.id, title: selectedDocument.data.name }
@@ -40,7 +45,10 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
     const [error, setError] = useState<string | null>(null);
     const upload = useUploadDocument();
     const ask = useAskDocument();
-    const uploadForm = useForm<UploadValues>({ defaultValues: { file: null, name: "" } });
+    const uploadForm = useForm<NewChatFormValues>({
+        resolver: zodResolver(newChatSchema),
+        defaultValues: { file: null, name: "" },
+    });
     const questionForm = useForm<QuestionValues>({ defaultValues: { query: "" } });
     const requestLock = useRef(false);
     const messagesRef = useRef<HTMLDivElement>(null);
@@ -54,13 +62,16 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
         if (requestLock.current) return;
         router.push(
             id
-                ? `/admin/projects/chat_with_document/${encodeURIComponent(id)}`
-                : "/admin/projects/chat_with_document",
+                ? `/admin/projects/chat-with-document/${encodeURIComponent(id)}`
+                : "/admin/projects/chat-with-document",
             { scroll: false },
         );
         setShowList(false);
         setError(null);
         uploadForm.reset();
+        setUploadFormKey((value) => value + 1);
+        upload.reset();
+        ask.reset();
         questionForm.reset();
     }
 
@@ -68,23 +79,14 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
         selectChat(null);
     }
 
-    async function uploadDocument({ file, name }: UploadValues) {
-        if (document || requestLock.current) return;
-        const trimmedName = name.trim();
-        if (!trimmedName || Array.from(trimmedName).length > 255) {
-            uploadForm.setError("name", { message: "Enter a document name (1–255 characters)." });
-            return;
-        }
-        if (!file || !/\.docx$/i.test(file.name) || file.size === 0) {
-            uploadForm.setError("file", { message: "Choose a non-empty Word document (.docx)." });
-            return;
-        }
+    async function uploadDocument({ file, name }: NewChatFormValues) {
+        if (document || requestLock.current || !file) return;
         requestLock.current = true;
         setError(null);
         try {
-            const result = await upload.mutateAsync({ file, name: trimmedName });
+            const result = await upload.mutateAsync({ file, name });
             router.push(
-                `/admin/projects/chat_with_document/${encodeURIComponent(result.document_id)}`,
+                `/admin/projects/chat-with-document/${encodeURIComponent(result.document_id)}`,
                 { scroll: false },
             );
         } catch (cause) {
@@ -109,7 +111,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
         setError(null);
         try {
             const result = await ask.mutateAsync({
-                document_id: document.document_id,
+                document_id: Number(document.document_id),
                 query: question,
             });
             if (!result.answer?.trim())
@@ -130,9 +132,9 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
         <div className="flex h-full min-h-0 w-full flex-1 overflow-hidden">
             <aside
                 aria-label="Conversations"
-                className={`${showList ? "flex" : "hidden md:flex"} h-full min-h-0 w-full shrink-0 flex-col border-r border-white/10 bg-[#101016] md:w-64 xl:w-80`}
+                className={`${showList ? "flex" : "hidden md:flex"} border-ui-border h-full min-h-0 w-full shrink-0 flex-col border-r bg-[#101016] md:w-64 xl:w-80`}
             >
-                <div className="shrink-0 space-y-4 border-b border-white/10 p-5">
+                <div className="border-ui-border shrink-0 space-y-4 border-b p-5">
                     <h1 className="flex items-center gap-2 font-semibold">
                         <MessageSquare size={20} className="text-violet-300" /> Document chats
                     </h1>
@@ -151,7 +153,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                     className="min-h-0 flex-1 space-y-1 overflow-y-auto overscroll-contain p-3"
                 >
                     {documents.isPending && (
-                        <p role="status" className="p-3 text-xs text-zinc-400">
+                        <p role="status" className="text-ui-secondary p-3 text-xs">
                             Loading conversations…
                         </p>
                     )}
@@ -164,14 +166,14 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                         </div>
                     )}
                     {documents.isSuccess && conversations.length === 0 && (
-                        <p className="p-3 text-xs text-zinc-500">
+                        <p className="text-ui-muted p-3 text-xs">
                             No conversations yet. Upload a document to start.
                         </p>
                     )}
                     {conversations.map((chat) => (
                         <Link
                             key={chat.id}
-                            href={`/admin/projects/chat_with_document/${encodeURIComponent(chat.id)}`}
+                            href={`/admin/projects/chat-with-document/${encodeURIComponent(chat.id)}`}
                             scroll={false}
                             aria-disabled={upload.isPending || ask.isPending}
                             onClick={(event) => {
@@ -193,12 +195,16 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                                 <span className="block truncate text-sm text-zinc-200">
                                     {chat.title}
                                 </span>
-                                <span className="mt-1 block truncate text-xs text-zinc-500">
-                                    Open conversation
-                                </span>
-                                <span className="mt-2 block text-[10px] text-zinc-600">
-                                    Word document
-                                </span>
+                                {chat.preview && (
+                                    <span dir="auto" className="text-ui-secondary mt-1 block truncate text-xs">
+                                        {chat.preview}
+                                    </span>
+                                )}
+                                {chat.timestamp && (
+                                    <time dateTime={chat.timestamp} title={messageDate(chat.timestamp).full} className="text-ui-muted mt-1 block text-xs">
+                                        {messageDate(chat.timestamp).time}
+                                    </time>
+                                )}
                             </span>
                         </Link>
                     ))}
@@ -207,7 +213,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
             <div
                 className={`${showList ? "hidden md:flex" : "flex"} h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden`}
             >
-                <header className="flex shrink-0 items-center gap-3 border-b border-white/10 bg-[#101016] px-4 py-3 sm:px-6">
+                <header className="border-ui-border flex shrink-0 items-center gap-3 border-b bg-[#101016] px-4 py-3 sm:px-6">
                     <Button
                         size="icon"
                         variant="secondary"
@@ -217,11 +223,11 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                         startIcon={<ArrowLeft size={18} />}
                     />
                     <FileText size={24} className="shrink-0 text-violet-300" />
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                         <h2 className="truncate text-sm font-medium" title={active?.title}>
                             {active?.title ?? "New conversation"}
                         </h2>
-                        <p className="mt-1 text-xs text-zinc-500">
+                        <p className="text-ui-muted mt-1 text-xs">
                             {document
                                 ? "Document ready · One document per chat"
                                 : "Upload a Word document to begin"}
@@ -229,7 +235,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                     </div>
                 </header>
                 {activeId && selectedDocument.isPending ? (
-                    <p role="status" className="p-6 text-sm text-zinc-400">
+                    <p role="status" className="text-ui-secondary p-6 text-sm">
                         Loading document…
                     </p>
                 ) : activeId && selectedDocument.isError ? (
@@ -253,19 +259,19 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                             <div className="space-y-2 text-center">
                                 <FileText size={40} className="mx-auto text-violet-300" />
                                 <h2 className="text-xl font-semibold">Chat with your document</h2>
-                                <p className="text-sm text-zinc-400">
+                                <p className="text-ui-secondary text-sm">
                                     Upload once, then ask questions about its contents.
                                 </p>
                             </div>
-                            <Input<UploadValues>
+                            <Input<NewChatFormValues>
                                 name="name"
                                 label="Document name (required)"
                                 placeholder="Give this conversation a name"
-                                required
                                 disabled={upload.isPending}
                                 dir="auto"
                             />
-                            <FileInput<UploadValues>
+                            <FileInput<NewChatFormValues>
+                                key={uploadFormKey}
                                 name="file"
                                 label="Word document"
                                 accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -280,7 +286,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                                 Upload document
                             </Button>
                             {upload.isPending && (
-                                <p role="status" className="text-sm text-zinc-400">
+                                <p role="status" className="text-ui-secondary text-sm">
                                     Uploading and preparing your document…
                                 </p>
                             )}
@@ -317,7 +323,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                             className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain bg-[radial-gradient(ellipse_at_top,_rgba(139,92,246,0.06),_transparent)] p-4 sm:p-6"
                         >
                             {history.isPending && (
-                                <p role="status" className="text-sm text-zinc-400">
+                                <p role="status" className="text-ui-secondary text-sm">
                                     Loading messages…
                                 </p>
                             )}
@@ -330,7 +336,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                                 </div>
                             )}
                             {history.isSuccess && turns?.length === 0 && (
-                                <p className="py-12 text-center text-sm text-zinc-500">
+                                <p className="text-ui-muted py-12 text-center text-sm">
                                     Your document is ready. Ask your first question below.
                                 </p>
                             )}
@@ -345,7 +351,7 @@ export default function DocumentChat({ documentId = null }: { documentId?: strin
                             methods={questionForm}
                             onSubmit={sendQuestion}
                             isPending={ask.isPending}
-                            className="flex shrink-0 items-end gap-3 border-t border-white/10 bg-[#101016] px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 [&>div]:min-w-0 [&>div]:flex-1"
+                            className="border-ui-border flex shrink-0 items-end gap-3 border-t bg-[#101016] px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:px-6 [&>div]:min-w-0 [&>div]:flex-1"
                         >
                             <Input<QuestionValues>
                                 name="query"

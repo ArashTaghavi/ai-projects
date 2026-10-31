@@ -96,19 +96,19 @@ export default function DocumentChatPreview() {
             aria-label="Illustrative multi-turn chat about a mystery story PDF, with page citations"
             className="relative mt-3 overflow-hidden rounded-xl border border-violet-300/10 bg-[#0c0b12] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-violet-400 shadow-[0_0_8px_#a78bfa70]"
                     />
                     document.chat
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-b border-white/5 px-3 py-2 text-[10px] text-zinc-500"
+                className="flex items-center gap-2 border-b border-ui-border-faint px-3 py-2 text-[10px] text-ui-muted"
             >
                 <FileText size={13} className="text-violet-300/70" />
                 <span>{documentName}</span>
@@ -125,7 +125,7 @@ export default function DocumentChatPreview() {
                 className="h-72 [scrollbar-width:thin] [scrollbar-color:#3a304a_transparent] space-y-3 overflow-y-auto overscroll-contain p-3"
             >
                 {elapsed < timeline[0].start && (
-                    <p className="text-[10px] text-zinc-600">Document ready. Ask a question...</p>
+                    <p className="text-[10px] text-ui-subtle">Document ready. Ask a question...</p>
                 )}
                 {timeline
                     .filter((message) => elapsed >= message.start)
@@ -142,19 +142,19 @@ export default function DocumentChatPreview() {
                                 className={`flex items-start gap-2 ${user ? "ml-6 flex-row-reverse" : "mr-3"}`}
                             >
                                 <span
-                                    className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-lg border ${user ? "border-white/8 bg-white/4 text-zinc-400" : "border-violet-300/15 bg-violet-300/5 text-violet-300"}`}
+                                    className={`mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-lg border ${user ? "border-ui-border-muted bg-white/4 text-ui-secondary" : "border-violet-300/15 bg-violet-300/5 text-violet-300"}`}
                                 >
                                     {user ? <UserRound size={12} /> : <Sparkles size={12} />}
                                 </span>
                                 <div
-                                    className={`min-w-0 flex-1 rounded-lg border px-2.5 py-2 ${user ? "rounded-tr-sm border-white/6 bg-white/3" : "rounded-tl-sm border-violet-300/10 bg-violet-300/3"}`}
+                                    className={`min-w-0 flex-1 rounded-lg border px-2.5 py-2 ${user ? "rounded-tr-sm border-ui-border-subtle bg-white/3" : "rounded-tl-sm border-violet-300/10 bg-violet-300/3"}`}
                                 >
                                     <p
-                                        className={`mb-1 text-[9px] font-medium tracking-wide ${user ? "text-zinc-500" : "text-violet-300/80"}`}
+                                        className={`mb-1 text-[9px] font-medium tracking-wide ${user ? "text-ui-muted" : "text-violet-300/80"}`}
                                     >
                                         {user ? "YOU" : "DOCUMENT ASSISTANT"}
                                     </p>
-                                    <p className="text-[11px] leading-5 text-zinc-300">
+                                    <p className="text-[11px] leading-5 text-ui-soft">
                                         {text}
                                         {typing && (
                                             <span className="ml-0.5 inline-block h-3 w-px animate-pulse bg-violet-200 align-middle motion-reduce:animate-none" />
@@ -175,7 +175,7 @@ export default function DocumentChatPreview() {
             </div>
             <div
                 aria-hidden="true"
-                className="flex items-center gap-2 border-t border-white/6 px-3 py-2 text-zinc-600"
+                className="flex items-center gap-2 border-t border-ui-border-subtle px-3 py-2 text-ui-subtle"
             >
                 <Paperclip size={12} />
                 <span className="flex-1 text-[10px]">Ask a follow-up about this document...</span>

@@ -46,36 +46,36 @@ export default function DatabaseAnalystPreview() {
             aria-label="Illustrative database analysis: a question becomes a validated SQL query and monthly revenue results"
             className="relative mt-3 overflow-hidden rounded-xl border border-cyan-300/10 bg-[#0b0e13] text-left"
         >
-            <figcaption className="flex items-center justify-between border-b border-white/5 px-3 py-2">
-                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-zinc-500">
+            <figcaption className="flex items-center justify-between border-b border-ui-border-faint px-3 py-2">
+                <span className="flex items-center gap-2 font-mono text-[9px] tracking-[0.12em] text-ui-muted">
                     <span
                         aria-hidden="true"
                         className="size-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_#67e8f970]"
                     />
                     analyst.sql
                 </span>
-                <span className="text-[9px] tracking-widest text-zinc-600 uppercase">Preview</span>
+                <span className="text-[9px] tracking-widest text-ui-subtle uppercase">Preview</span>
             </figcaption>
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute top-12 -right-12 size-36 rounded-full bg-cyan-500/5 blur-3xl"
             />
             <div aria-hidden="true" className="relative space-y-2 p-3">
-                <div className="flex items-center gap-2 text-[10px] text-zinc-500">
+                <div className="flex items-center gap-2 text-[10px] text-ui-muted">
                     <Database size={13} className="text-cyan-300/70" />
                     <span>analytics / payments</span>
-                    <span className="ml-auto rounded border border-white/6 px-1.5 py-0.5 text-[8px] text-zinc-500">
+                    <span className="ml-auto rounded border border-ui-border-subtle px-1.5 py-0.5 text-[8px] text-ui-muted">
                         READ ONLY
                     </span>
                 </div>
-                <div className="ml-5 min-h-9 rounded-xl rounded-tr-sm border border-cyan-400/10 bg-cyan-400/5 px-3 py-2 text-[11px] leading-5 text-zinc-300">
+                <div className="ml-5 min-h-9 rounded-xl rounded-tr-sm border border-cyan-400/10 bg-cyan-400/5 px-3 py-2 text-[11px] leading-5 text-ui-soft">
                     {prompt.slice(0, position)}
                     {position < prompt.length && (
                         <span className="ml-0.5 inline-block h-3 w-px animate-pulse bg-cyan-200 align-middle motion-reduce:animate-none" />
                     )}
                 </div>
-                <div className="overflow-hidden rounded-lg border border-white/6 bg-black/15">
-                    <div className="flex items-center justify-between border-b border-white/5 px-3 py-1 text-[8px] tracking-wider">
+                <div className="overflow-hidden rounded-lg border border-ui-border-subtle bg-black/15">
+                    <div className="flex items-center justify-between border-b border-ui-border-faint px-3 py-1 text-[8px] tracking-wider">
                         <span className="flex items-center gap-1.5 text-cyan-300/80">
                             <Sparkles size={10} />
                             GENERATED SQL
@@ -95,7 +95,7 @@ export default function DatabaseAnalystPreview() {
                     </pre>
                 </div>
                 <div className="space-y-1.5">
-                    <div className="flex items-center justify-between text-[8px] tracking-wider text-zinc-500">
+                    <div className="flex items-center justify-between text-[8px] tracking-wider text-ui-muted">
                         <span>QUERY RESULTS</span>
                         <span className={complete ? "visible text-cyan-300/60" : "invisible"}>
                             3 ROWS
@@ -106,14 +106,14 @@ export default function DatabaseAnalystPreview() {
                             key={month}
                             className={`flex items-center gap-3 text-[9px] transition-opacity duration-500 motion-reduce:transition-none ${position >= queryEnd + index * 8 ? "opacity-100" : "opacity-0"}`}
                         >
-                            <span className="w-14 shrink-0 text-zinc-500">{month}</span>
+                            <span className="w-14 shrink-0 text-ui-muted">{month}</span>
                             <div className="h-1 flex-1 overflow-hidden rounded-full bg-white/4">
                                 <div
                                     style={{ width }}
                                     className="h-full rounded-full bg-linear-to-r from-cyan-500/30 to-cyan-300/70"
                                 />
                             </div>
-                            <span className="w-14 text-right font-mono text-zinc-300">
+                            <span className="w-14 text-right font-mono text-ui-soft">
                                 {revenue}
                             </span>
                         </div>

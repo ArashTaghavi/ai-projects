@@ -96,7 +96,7 @@ export default function TicTacToe() {
                             >
                                 {status}
                             </h2>
-                            <p className="mt-2 text-xs text-zinc-500">
+                            <p className="mt-2 text-xs text-ui-muted">
                                 {result.winner
                                     ? "Ready for a rematch?"
                                     : "Place your mark. Make your move."}
@@ -120,7 +120,7 @@ export default function TicTacToe() {
                                             onClick={() =>
                                                 dispatch({ type: "move", index, player: game.turn })
                                             }
-                                            className={`${styles.cell} flex w-full items-center justify-center rounded-2xl border focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400 disabled:cursor-default ${mark === "X" ? "text-violet-300" : "text-cyan-300"} ${winning ? "border-emerald-300/40 bg-emerald-400/[0.07]" : mark ? "border-white/10 bg-white/[0.035]" : "cursor-pointer border-white/[0.08] bg-white/[0.015] hover:border-violet-400/30 hover:bg-violet-400/[0.04]"}`}
+                                            className={`${styles.cell} flex w-full items-center justify-center rounded-2xl border focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-400 disabled:cursor-default ${mark === "X" ? "text-violet-300" : "text-cyan-300"} ${winning ? "border-emerald-300/40 bg-emerald-400/[0.07]" : mark ? "border-ui-border bg-white/[0.035]" : "cursor-pointer border-ui-border-muted bg-white/[0.015] hover:border-violet-400/30 hover:bg-violet-400/[0.04]"}`}
                                         >
                                             {mark && <MarkIcon mark={mark} />}
                                         </button>
@@ -147,7 +147,7 @@ export default function TicTacToe() {
                             )}
                         </div>
                         <div className="mx-auto mt-6 flex max-w-[430px] items-center justify-between gap-3">
-                            <p className="text-[11px] text-zinc-500">
+                            <p className="text-[11px] text-ui-muted">
                                 {game.starter === "X" ? player : opponent} starts this round
                             </p>
                             <Button
@@ -177,14 +177,14 @@ export default function TicTacToe() {
                                         onClick={() =>
                                             dispatch({ type: "mode", mode: mode as Mode })
                                         }
-                                        className={`flex cursor-pointer flex-col items-center gap-2 rounded-xl border px-2 py-4 text-xs transition focus-visible:outline-2 focus-visible:outline-violet-400 ${game.mode === mode ? "border-violet-400/30 bg-violet-400/10 text-violet-200" : "border-white/[0.06] text-zinc-500 hover:bg-white/5 hover:text-zinc-300"}`}
+                                        className={`flex cursor-pointer flex-col items-center gap-2 rounded-xl border px-2 py-4 text-xs transition focus-visible:outline-2 focus-visible:outline-violet-400 ${game.mode === mode ? "border-violet-400/30 bg-violet-400/10 text-violet-200" : "border-ui-border-subtle text-ui-muted hover:bg-white/5 hover:text-ui-soft"}`}
                                     >
                                         <Icon size={19} aria-hidden="true" />
                                         {label}
                                     </button>
                                 ))}
                             </div>
-                            <p className="mt-3 text-center text-[10px] leading-5 text-zinc-500">
+                            <p className="mt-3 text-center text-[10px] leading-5 text-ui-muted">
                                 {game.mode === "computer"
                                     ? "A worthy opponent. Can you force a draw?"
                                     : "Same screen. Take turns. Challenge a friend."}
@@ -199,7 +199,7 @@ export default function TicTacToe() {
                             }
                             contentClassName="p-4"
                         >
-                            <div className="grid grid-cols-3 divide-x divide-white/[0.06] text-center">
+                            <div className="grid grid-cols-3 divide-x divide-ui-border-subtle text-center">
                                 {[
                                     {
                                         label: player,
@@ -211,7 +211,7 @@ export default function TicTacToe() {
                                         label: "Draws",
                                         value: game.scores.draw,
                                         mark: "=",
-                                        color: "text-zinc-500",
+                                        color: "text-ui-muted",
                                     },
                                     {
                                         label: opponent,
@@ -227,7 +227,7 @@ export default function TicTacToe() {
                                         <p className="my-2 text-3xl font-semibold tabular-nums">
                                             {item.value}
                                         </p>
-                                        <p className="text-[10px] text-zinc-500">{item.label}</p>
+                                        <p className="text-[10px] text-ui-muted">{item.label}</p>
                                     </div>
                                 ))}
                             </div>
@@ -240,7 +240,7 @@ export default function TicTacToe() {
                                             key={round.round}
                                             className="flex justify-between gap-3 text-[11px]"
                                         >
-                                            <span className="text-zinc-500">
+                                            <span className="text-ui-muted">
                                                 Round {round.round}
                                             </span>
                                             <span
@@ -249,7 +249,7 @@ export default function TicTacToe() {
                                                         ? "text-violet-300"
                                                         : round.winner === "O"
                                                           ? "text-cyan-300"
-                                                          : "text-zinc-400"
+                                                          : "text-ui-secondary"
                                                 }
                                             >
                                                 {round.winner === "draw"
@@ -260,13 +260,13 @@ export default function TicTacToe() {
                                     ))}
                                 </ol>
                             ) : (
-                                <p className="text-xs leading-6 text-zinc-500">
+                                <p className="text-xs leading-6 text-ui-muted">
                                     Your story starts with the first move. Completed rounds will
                                     appear here.
                                 </p>
                             )}
                         </Panel>
-                        <p className="px-1 text-[10px] leading-5 text-zinc-600">
+                        <p className="px-1 text-[10px] leading-5 text-ui-subtle">
                             Three matching marks in a row, column or diagonal wins. The starting
                             player alternates between rounds. Scores last for this visit.
                         </p>
