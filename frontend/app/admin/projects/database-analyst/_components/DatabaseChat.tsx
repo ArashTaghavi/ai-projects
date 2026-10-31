@@ -10,10 +10,12 @@ import { Button } from "@/components/ui";
 import {
     databaseAnalystService,
     type DatabaseAnswer,
+    type DatabaseProgress,
 } from "@/services/admin/projects/database-analyst/database-analyst.service";
 import { questionSchema, type QuestionValues } from "../_schemas/question.schema";
 import { messageDate } from "../../chat-with-document/_lib/message-dates";
 import styles from "../../chat-with-document/_components/MessageHistory.module.css";
+import AnalysisProgress from "./AnalysisProgress";
 
 type Turn = {
     id: string;
@@ -21,6 +23,7 @@ type Turn = {
     answer?: DatabaseAnswer;
     createdAt: string;
     error?: string;
+    steps: DatabaseProgress[];
 };
 type Conversation = { id: string; title: string; turns: Turn[] };
 
@@ -44,11 +47,14 @@ export default function DatabaseChat() {
     const active = conversations.find((chat) => chat.id === activeId);
     const messagesRef = useRef<HTMLDivElement>(null);
     const requestLock = useRef(false);
+    const requestAbort = useRef<AbortController | null>(null);
     const ask = useMutation({ mutationFn: databaseAnalystService.ask });
     const form = useForm<QuestionValues>({
         resolver: zodResolver(questionSchema),
         defaultValues: { query: "" },
     });
+
+    useEffect(() => () => requestAbort.current?.abort(), []);
 
     useEffect(() => {
         const messages = messagesRef.current;
@@ -66,11 +72,14 @@ export default function DatabaseChat() {
     async function sendQuestion({ query }: QuestionValues) {
         if (requestLock.current) return;
         requestLock.current = true;
+        const controller = new AbortController();
+        requestAbort.current = controller;
         const chatId = activeId ?? crypto.randomUUID();
         const turn: Turn = {
             id: crypto.randomUUID(),
             question: query,
             createdAt: new Date().toISOString(),
+            steps: [],
         };
         if (activeId) {
             setConversations((chats) =>
@@ -92,7 +101,25 @@ export default function DatabaseChat() {
         }
         form.reset();
         try {
-            const answer = await ask.mutateAsync({ query });
+            const answer = await ask.mutateAsync({
+                query,
+                signal: controller.signal,
+                onProgress: (step) =>
+                    setConversations((chats) =>
+                        chats.map((chat) =>
+                            chat.id === chatId
+                                ? {
+                                      ...chat,
+                                      turns: chat.turns.map((item) =>
+                                          item.id === turn.id
+                                              ? { ...item, steps: [...item.steps, step] }
+                                              : item,
+                                      ),
+                                  }
+                                : chat,
+                        ),
+                    ),
+            });
             setConversations((chats) =>
                 chats.map((chat) =>
                     chat.id === chatId
@@ -106,6 +133,7 @@ export default function DatabaseChat() {
                 ),
             );
         } catch (cause) {
+            if (controller.signal.aborted) return;
             const error =
                 cause instanceof Error
                     ? cause.message
@@ -123,6 +151,7 @@ export default function DatabaseChat() {
                 ),
             );
         } finally {
+            requestAbort.current = null;
             requestLock.current = false;
         }
     }
@@ -258,6 +287,13 @@ export default function DatabaseChat() {
                                 </p>
                                 <Time timestamp={turn.createdAt} />
                             </div>
+                            {turn.steps.length > 0 && (
+                                <AnalysisProgress
+                                    steps={turn.steps}
+                                    finished={!!turn.answer}
+                                    failed={!!turn.error || turn.answer?.success === false}
+                                />
+                            )}
                             {turn.answer && (
                                 <div
                                     className={`${styles.bubble} ${styles.assistant} mr-auto max-w-[95%] min-w-0 space-y-3 rounded-3xl rounded-tl-md px-3 py-2.5 sm:max-w-[90%]`}
@@ -271,16 +307,46 @@ export default function DatabaseChat() {
                                     >
                                         {turn.answer.text}
                                     </p>
-                                    <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0b0d14]/80">
-                                        <p className="border-b border-white/10 px-3 py-2 text-[10px] font-semibold tracking-wider text-violet-300">
-                                            SQL
-                                        </p>
-                                        <pre
-                                            dir="ltr"
-                                            className="overflow-x-auto p-3 text-xs leading-6 text-violet-200"
-                                        >
-                                            <code>{turn.answer.sql}</code>
-                                        </pre>
+                                    <p
+                                        dir="auto"
+                                        className={`rounded-lg border px-3 py-2 text-xs leading-6 ${turn.answer.success ? "border-emerald-300/20 bg-emerald-300/5 text-emerald-200" : "border-red-300/20 bg-red-300/5 text-red-200"}`}
+                                    >
+                                        {turn.answer.success
+                                            ? turn.answer.refined
+                                                ? "SQL اصلاح و دوباره اجرا شد."
+                                                : "بررسی مجدد انجام شد؛ SQL تأیید شد."
+                                            : "اجرای SQL با خطا مواجه شد."}
+                                        {turn.answer.feedback && (
+                                            <span className="mt-1 block">
+                                                {turn.answer.feedback}
+                                            </span>
+                                        )}
+                                    </p>
+                                    <div className="grid min-w-0 gap-3 xl:grid-cols-2">
+                                        <div className="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-[#0b0d14]/80">
+                                            <p className="border-b border-white/10 px-3 py-2 text-[10px] font-semibold tracking-wider text-zinc-400">
+                                                SQL اولیه
+                                            </p>
+                                            <pre
+                                                dir="ltr"
+                                                className="overflow-x-auto p-3 text-xs leading-6 text-zinc-300"
+                                            >
+                                                <code>{turn.answer.initial_sql}</code>
+                                            </pre>
+                                        </div>
+                                        <div className="min-w-0 overflow-hidden rounded-xl border border-white/10 bg-[#0b0d14]/80">
+                                            <p className="border-b border-white/10 px-3 py-2 text-[10px] font-semibold tracking-wider text-violet-300">
+                                                {turn.answer.refined
+                                                    ? "SQL اصلاح‌شده"
+                                                    : "SQL نهایی · بدون تغییر"}
+                                            </p>
+                                            <pre
+                                                dir="ltr"
+                                                className="overflow-x-auto p-3 text-xs leading-6 text-violet-200"
+                                            >
+                                                <code>{turn.answer.sql}</code>
+                                            </pre>
+                                        </div>
                                     </div>
                                     <div className="overflow-hidden rounded-xl border border-white/10 bg-black/15">
                                         <p className="border-b border-white/10 px-3 py-2 text-[10px] font-semibold tracking-wider text-sky-200">
@@ -307,9 +373,9 @@ export default function DatabaseChat() {
                             )}
                         </div>
                     ))}
-                    {ask.isPending && (
+                    {ask.isPending && !active?.turns.at(-1)?.steps.length && (
                         <p role="status" className="px-2 py-3 text-sm text-violet-300">
-                            Analyzing your question and querying the database…
+                            Connecting to the analysis stream…
                         </p>
                     )}
                 </div>
