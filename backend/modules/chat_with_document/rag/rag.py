@@ -1,11 +1,13 @@
 import os
 from functools import lru_cache
 from pathlib import Path
+from shutil import copyfileobj
 from uuid import uuid4
 
 from fastapi import HTTPException, UploadFile
 
 from core import config as _environment_config
+from database.connection import DbSession
 from langchain.chat_models import init_chat_model
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain_core.documents import Document
@@ -18,6 +20,8 @@ from langchain_postgres.vectorstores import (
     PGVector,
 )
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from ..models.document import Document as UploadedDocument
 
 from ..config import (
     CHUNK_OVERLAP,
@@ -72,7 +76,9 @@ class ChatWithDocument:
         self.rewrite_chain = self.rewrite_prompt | self.llm | StrOutputParser()
 
     @staticmethod
-    def prepare_upload(file: UploadFile, name: str) -> tuple[str, Path]:
+    def prepare_upload(
+        db: DbSession, file: UploadFile, name: str, owner_id: int
+    ) -> tuple[UploadedDocument, Path]:
         name = name.strip()
         if not name or len(name) > 255:
             raise HTTPException(
@@ -86,7 +92,17 @@ class ChatWithDocument:
         storage_path = Path(__file__).resolve().parent.parent / "storage" / "documents"
         storage_path.mkdir(parents=True, exist_ok=True)
         file_path = storage_path / filename
-        return name, file_path
+        with file_path.open("wb") as destination:
+            copyfileobj(file.file, destination)
+
+        document = UploadedDocument(
+            owner_id=owner_id,
+            name=name,
+            original_file_name=file.filename,
+        )
+        db.add(document)
+        db.flush()
+        return document, file_path
 
     def _load_document(self, file_path: Path) -> list[Document]:
         loader = Docx2txtLoader(file_path=file_path)

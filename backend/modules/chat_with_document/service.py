@@ -1,5 +1,4 @@
 from hashlib import blake2b
-from shutil import copyfileobj
 
 from core import config as _environment_config
 from database.connection import DbSession
@@ -110,12 +109,11 @@ class ChatService:
         return self._get_document_chat_history(db, owner_id, document_id)
 
     def upload(self, db: DbSession, file: UploadFile, owner_id: int, name: str):
-        name, file_path = ChatWithDocument.prepare_upload(file, name)
-
         try:
-            # Step-1: Upload file
-            with file_path.open("wb") as destination:
-                copyfileobj(file.file, destination)
+            # Step-1: Upload file and save document in the database
+            document, file_path = ChatWithDocument.prepare_upload(db, file, name, owner_id)
+            document_id = document.id
+            name = document.name
 
             # Step-2: Create ChatWithDocument
             rag = ChatWithDocument()
@@ -126,17 +124,7 @@ class ChatService:
             # Step-4: Split document into chunks
             chunks = rag._split_document(documents=documents)
 
-            # Step-5: Save document in the database
-            document = Document(
-                owner_id=owner_id,
-                name=name,
-                original_file_name=file.filename,
-            )
-            db.add(document)
-            db.flush()
-            document_id = document.id
-
-            # Step-6: Embed chunks and store vectors
+            # Step-5: Embed chunks and store vectors
             ids = rag.ingest(chunks=chunks, document_id=document_id, owner_id=owner_id)
             db.commit()
         except Exception as exc:
